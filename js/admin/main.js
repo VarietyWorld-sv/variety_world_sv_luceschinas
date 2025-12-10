@@ -1,11 +1,11 @@
-import { supabase } from './config.js';
-import * as UI from './ui.js';
-import * as Analytics from './analytics.js';
-import * as Products from './products.js';
-import * as Users from './users.js';
-import * as Zones from './zones.js';
-import * as Orders from './orders.js';
-import * as Combos from './combos.js';
+import { supabase } from './admin/config.js';
+import * as UI from './admin/ui.js';
+import * as Analytics from './admin/analytics.js';
+import * as Products from './admin/products.js';
+import * as Users from './admin/users.js';
+import * as Zones from './admin/zones.js';
+import * as Orders from './admin/orders.js';
+import * as Combos from './admin/combos.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
