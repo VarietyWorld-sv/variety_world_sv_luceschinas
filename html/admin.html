@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel maestro</title>
+    
+    <link rel="stylesheet" href="../css/encabezado.css">
+    <link rel="stylesheet" href="../css/pie.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header>
+        <section>
+            <div>
+                <nav>
+                    <ul class="encabezado">
+                        <li id="btnMenuMobile" style="display: none; cursor: pointer; font-size: 1.5rem; margin-right: 15px;">
+                            <i class="fa-solid fa-bars" style="color: #E6B325;"></i>
+                        </li>
+
+                        <li id="cajaLogo">
+                            <a href="../index.html">
+                                <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                            </a>
+                        </li>
+                        
+                        <p class="titulo-admin-header">Sistema de gestión</p>
+                        
+                        <li class="btnSesion">
+                            <a href="#" id="btnCerrarSesionAdmin">
+                                <i class="fa-solid fa-right-from-bracket"></i> 
+                                <span class="texto-salir">Salir</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    <main class="admin-container">
+        
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <img id="sidebar-foto-perfil" src="https://cdn-icons-png.flaticon.com/512/9703/9703596.png" alt="Admin">
+                <h3 id="sidebar-rol-texto">Cargando...</h3>
+            </div>
+            
+            <ul class="admin-menu">
+                <li class="active" onclick="mostrarSeccion('dashboard', this)">
+                    <a href="#"><i class="fa-solid fa-chart-line"></i> Analíticas</a>
+                </li>
+                <li onclick="mostrarSeccion('productos', this)">
+                    <a href="#"><i class="fa-solid fa-box"></i> Productos</a>
+                </li>
+                <li onclick="mostrarSeccion('combos', this)">
+                    <a href="#"><i class="fa-solid fa-tags"></i> Promociones</a>
+                </li>
+                <li onclick="mostrarSeccion('usuarios', this)">
+                    <a href="#"><i class="fa-solid fa-users-gear"></i> Usuarios</a>
+                </li>
+                <li onclick="mostrarSeccion('zonas', this)">
+                    <a href="#"><i class="fa-solid fa-map-location-dot"></i> Zonas</a>
+                </li>
+                <li onclick="mostrarSeccion('pedidos', this)">
+                    <a href="#"><i class="fa-solid fa-truck-fast"></i> Pedidos</a>
+                </li>
+                
+                <li style="margin-top: 30px; border-top: 1px solid rgba(230, 179, 37, 0.3); padding-top: 10px;">
+                    <a href="../index.html" target="_blank" style="color: #E6B325;">
+                        <i class="fa-solid fa-eye"></i> Ver como cliente
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <section class="admin-content">
+            
+            <div id="sec-dashboard" class="seccion-admin">
+                <h1 class="page-title">Análisis de Negocio</h1>
+                
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon money"><i class="fa-solid fa-dollar-sign"></i></div>
+                        <div class="kpi-info">
+                            <h3>Ventas Totales</h3>
+                            <p id="kpi-ingresos">$0.00</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon users"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-info">
+                            <h3>Usuarios</h3>
+                            <p id="kpi-usuarios">0</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon stock"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="kpi-info">
+                            <h3>Productos</h3>
+                            <p id="kpi-productos">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid-completa">
+                    <div class="chart-container large">
+                        <h3><i class="fa-solid fa-arrow-trend-up"></i> Tendencia de Ventas</h3>
+                        <canvas id="chartLineaVentas"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Estados de Pedidos</h3>
+                        <canvas id="chartEstados"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-productos" class="seccion-admin" style="display:none;">
+                <div class="panel-header">
+                    <h1 class="page-title">Inventario</h1>
+                    <button class="btn-action" onclick="abrirModalProducto()">+ Nuevo producto</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Img</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Desc. %</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-productos-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-combos" class="seccion-admin" style="display:none;">
+                <div class="panel-header">
+                    <h1 class="page-title">Gestión de promociones</h1>
+                    <button class="btn-action" onclick="abrirModalCombo()">+ Nuevo Combo</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Img</th>
+                                <th>Nombre Combo</th>
+                                <th>Precio Oferta</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-combos-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-usuarios" class="seccion-admin" style="display:none;">
+                <h1 class="page-title">Usuarios</h1>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre Completo</th> 
+                                
+                                <th>Email / Teléfono</th> 
+                                
+                                <th>Rol Actual</th> 
+                                
+                                <th>Cambiar Rol</th>
+                                
+                                <th>Acción</th> 
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-usuarios-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-zonas" class="seccion-admin" style="display:none;">
+                <div class="panel-header">
+                    <h1 class="page-title">Zonas de Envío</h1>
+                    <button class="btn-action" onclick="abrirModalZona()">+ Nueva Zona</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Zona</th>
+                                <th>Costo ($)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-zonas-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="sec-pedidos" class="seccion-admin" style="display:none;">
+                <h1 class="page-title">Control de Pedidos</h1>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-pedidos-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="modalProductoAdmin" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal('modalProductoAdmin')">&times;</span>
+            <h2 id="tituloModalProducto">Gestión de Producto</h2>
+            
+            <form id="formProducto">
+                <input type="hidden" id="prod-id">
+                
+                <div class="grupo-input-carrito">
+                    <label>Código de Producto:</label>
+                    <input type="text" id="prod-codigo" placeholder="Ej. A-001" autocomplete="off">
+                    <small style="color:#aaa; font-style:italic;">Presiona Tab para buscar</small>
+                </div>
+
+                <div id="msg-producto-encontrado" class="info-producto-encontrado">
+                    <h3 id="txt-nombre-encontrado">Nombre del Producto</h3>
+                    <p>Precio actual: <span id="txt-precio-encontrado">$0.00</span></p>
+                    <p style="color:#4CAF50; margin-top:5px; font-size:0.8rem;">Modo: Actualización rápida de Stock</p>
+                </div>
+
+                <div class="grupo-input-carrito">
+                    <label>Stock Disponible:</label>
+                    <input type="number" id="prod-stock" required style="font-size: 1.2rem; font-weight:bold; color:#E6B325;">
+                </div>
+
+                <div id="campos-detallados" class="grupo-ocultable">
+                    <div class="grupo-input-carrito">
+                        <label>Nombre:</label>
+                        <input type="text" id="prod-nombre" required>
+                    </div>
+
+                    <div class="grupo-input-carrito" style="display:flex; gap:10px;">
+                        <div style="flex:2">
+                            <label>Categoría:</label>
+                            <input type="text" id="prod-categoria" list="lista-categorias" placeholder="Selecciona..." autocomplete="off">
+                            <datalist id="lista-categorias"></datalist>
+                        </div>
+                        <div style="flex:1">
+                            <label>Unds/Paq:</label>
+                            <input type="number" id="prod-paquete" placeholder="Ej. 12" min="1" value="1">
+                        </div>
+                    </div>
+
+                    <div class="grupo-input-carrito" style="display:flex; gap:10px;">
+                        <div style="flex:1">
+                            <label>Precio ($):</label>
+                            <input type="number" step="0.01" id="prod-precio" required>
+                        </div>
+                        <div style="flex:1">
+                            <label>Descuento (%):</label>
+                            <input type="number" id="prod-descuento" value="0">
+                        </div>
+                    </div>
+
+                    <div class="grupo-input-carrito">
+                        <label>URL Imagen:</label>
+                        <input type="text" id="prod-imagen">
+                    </div>
+                    <div class="grupo-input-carrito">
+                        <label for="input-url-video">URL Video:</label>
+                        <input type="url" id="input-url-video" placeholder="Ej: https://youtube.com/watch?v=123xyz">
+                    </div>
+                    <div class="grupo-input-carrito">
+                        <label>Descripción:</label>
+                        <textarea id="prod-desc"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-checkout" id="btn-guardar-producto">Guardar Producto</button>
+                <button type="button" id="btn-cancelar-modo-rapido" class="btn-action" style="width:100%; margin-top:10px; display:none; background:#555;">Editar detalles completos</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalZonaAdmin" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-modal" onclick="cerrarModal('modalZonaAdmin')">&times;</span>
+            <h2>Zona de Envío</h2>
+            
+            <form id="formZona">
+                <input type="hidden" id="zona-id">
+                
+                <div class="grupo-input-carrito">
+                    <label>Nombre zona:</label>
+                    <input type="text" id="zona-nombre" required>
+                </div>
+                
+                <div class="grupo-input-carrito">
+                    <label>Costo base ($):</label>
+                    <input type="number" step="0.01" id="zona-costo" required>
+                </div>
+                
+                <button type="submit" class="btn-checkout">Guardar zona</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalAdminPedido" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-modal" onclick="cerrarModal('modalAdminPedido')">&times;</span>
+            <h2 id="titulo-modal-pedido">Gestionar pedido</h2>
+            
+            <h3 id="cliente-modal-titulo" style="text-align:center; color:#E6B325; margin-bottom:20px; font-weight:normal;">Cargando cliente...</h3>
+            
+            <div class="modal-body-admin" id="modal-pedido">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; background-color: #151538; padding: 15px; border-radius: 10px;">
+                    <label style="color: #fff; margin-right: 10px;">Estado:</label>
+                    <select id="select-estado-pedido" class="admin-select" style="width: auto; flex-grow: 1;">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Procesando">Procesando</option>
+                        <option value="Enviado">Enviado</option>
+                        <option value="Entregado">Entregado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                    <button id="btn-guardar-estado" class="btn-action" style="margin-left: 10px;">Actualizar estado</button>
+                </div>
+
+                <hr style="border: 1px solid #5D4037; margin: 20px 0; background-color: transparent;">
+
+                <h3 style="color:#E6B325; margin-bottom: 10px; background-color: transparent;">Editar productos</h3>
+                <div style="display:flex; gap:10px; margin-bottom:15px; align-items: center;">
+                    <select id="select-add-producto" class="admin-select" style="flex:2;">
+                        <option value="">Cargando productos...</option>
+                    </select>
+                    <input type="number" id="input-add-cantidad" class="input-tabla" placeholder="Cant." min="1" value="1" style="width:80px;">
+                    <button id="btn-add-producto" class="btn-checkout" style="margin:0; width:auto; padding: 10px 20px;">
+                        <i class="fa-solid fa-plus"></i> Agregar
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio Unit.</th>
+                                <th>Cant.</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-detalles-pedido"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="text-align:right; font-weight:bold; color: #fff;">TOTAL FACTURA:</td>
+                                <td id="total-pedido-modal" style="color:#E6B325; font-weight:bold; font-size: 1.2em;">$0.00</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalComboAdmin" class="modal-overlay">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-modal" onclick="cerrarModal('modalComboAdmin')">&times;</span>
+            <h2 id="tituloModalCombo">Datos del Combo</h2>
+            
+            <form id="formCombo">
+                <input type="hidden" id="combo-id">
+                
+                <h3 style="color:#E6B325; margin-bottom: 10px;">Productos incluidos</h3>
+                
+                <div style="display:flex; gap:10px; margin-bottom:15px; align-items:center;">
+                    <select id="select-add-combo-producto" class="admin-select" style="flex:3;">
+                        <option value="">Seleccionar producto...</option>
+                    </select>
+                    <input type="number" id="input-add-combo-cantidad" class="input-tabla" placeholder="Cant." min="1" value="1" style="width:80px; flex:1;">
+                    <button type="button" id="btn-add-combo-item" class="btn-action" style="margin:0; padding: 10px 20px;">
+                        + Agregar
+                    </button>
+                </div>
+
+                <div class="table-responsive" style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio Unit.</th>
+                                <th>Cant.</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-combo-items">
+                            <tr id="empty-combo-row"><td colspan="5" style="text-align:center; color:#999;">Aún no hay productos en este combo.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="background-color: #151538; padding: 15px; border-radius: 10px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <label style="color:#ccc;">Precio Normal (Suma):</label>
+                        <span id="combo-precio-normal" style="font-weight:bold; color:#fff;">$0.00</span>
+                    </div>
+                    
+                    <div class="grupo-input-carrito">
+                        <label>Descuento a aplicar (%):</label>
+                        <input type="number" id="combo-descuento-porcentaje" value="0" min="0" max="100" style="font-size:1.4rem; font-weight:bold; color:#E6B325;">
+                    </div>
+                    <div class="grupo-input-carrito" style="margin-top: 15px;">
+                        <label>Precio Final:</label>
+                        <input type="text" id="combo-precio-calculado" readonly style="font-size:1.4rem; font-weight:bold; color:#E6B325;">
+                        <input type="hidden" id="combo-precio">
+                    </div>
+                </div>
+                
+                <hr style="border: 1px solid #5D4037; margin: 20px 0; background-color: transparent;">
+
+                <div class="grupo-input-carrito">
+                    <label>Nombre del Combo:</label>
+                    <input type="text" id="combo-nombre" required>
+                </div>
+                <div class="grupo-input-carrito">
+                    <label>Descripción / Productos que incluye:</label>
+                    <textarea id="combo-desc" placeholder="Ej: Incluye 1 Batería y 2 Volcanes..."></textarea>
+                </div>
+                <div class="grupo-input-carrito">
+                    <label>URL Imagen:</label>
+                    <input type="text" id="combo-imagen">
+                </div>
+                
+                <div class="grupo-input-carrito">
+                    <label>¿Activo?</label>
+                    <select id="combo-activo">
+                        <option value="true">Sí, visible</option>
+                        <option value="false">No, oculto</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-checkout">Guardar Combo</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <div id="modalDetallesUsuario" class="modal-general" style="display:none; /* Asegúrate de que este estilo lo oculte por defecto */">
+        <div class="modal-contenido-detalles" style="max-width: 500px; padding: 25px; background-color: #1E1E49; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);">
+            
+            <span class="cerrar-modal" onclick="document.getElementById('modalDetallesUsuario').style.display='none'" 
+                style="float: right; font-size: 28px; font-weight: bold; color: #E6B325; cursor: pointer;">&times;</span>
+            
+            <div id="modalDetallesContent">
+                <p>Cargando detalles...</p>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    <footer class="pie-principal">
+        <div class="contenido-pie">
+            <div class="columna-pie info-marca">
+                <p class="descripcion-marca">Panel de control</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="../js/admin/main.js"></script>
+    
+    <script>
+        document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        }
+    </script>
+    
+</body>
+</html>

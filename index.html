@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variety World: Fuegos artificiales</title>
+    <link rel="stylesheet" href="../css/encabezado.css">
+    <link rel="stylesheet" href="../css/inicio.css">
+    <link rel="stylesheet" href="../css/pie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!--Encabezado-->
+    <header>
+        <!--Primera sección del encabezado, Aquí está el logo-->
+        <section>
+            <div>
+                <nav>
+
+                    <ul class="encabezado">
+
+                        <div id="cajaLogo">
+                            <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                        </div>
+
+                        <p>Fuegos <br>artificiales SV</p>
+
+
+                        <li class="barra">
+                            <input type="text" id="inputBusquedaGlobal" placeholder="Buscar producto"
+                                class="inputBusqueda" autocomplete="off">
+
+                            <div id="listaSugerencias" class="sugerencias-box"></div>
+                        </li>
+
+                        <li class="btnSesion">
+                            <a href="../html/login.html"><img src="../images/login-icon.png" alt="Iniciar sesión">
+                                Iniciar sesión</a>
+                        </li>
+
+                        <li class="btnCarrito">
+                            <a href="../html/carrito.html"><img src="../images/carrito-icon.png" alt="Carrito"></a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        <!--segunda sección del encabezado y el menú-->
+        <section>
+            <div>
+                <nav>
+                    <ul class="navegacion">
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../html/productos.html">Productos</a></li>
+                        <li><a href="../html/promociones.html">Promociones</a></li>
+                        <li><a href="../html/quienessomos.html">¿Quiénes somos?</a></li>
+                        <li><a href="../html/envios.html">Envíos</a></li>
+                        <li><a href="../html/carrito.html">Ver carrito</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    <!--Banner de fondo-->
+    <section>
+        <div class="cajaInicio">
+            <img class="imagenFondoEncabezado" src="../images/fondo_inicio.png" alt="Imagen de fondo">
+            <div class="textoSuperpuesto">
+                <h1>
+                    Bienvenido a Variety World SV:
+                    Productos pirotécnicos
+                </h1>
+                <p>
+                    Descubre una amplia variedad de productos de calidad con los mejores
+                    precios del país
+                </p>
+                <ul class="navegacion">
+                    <li id="btnVariacion1"><a href="../html/productos.html">Ver productos</a></li>
+                    <li id="btn2"><a href="../html/promociones.html">Ver promociones</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+    <!--productos con estilo de tarjetas-->
+    <section class="productos">
+
+        <h1>Productos destacados</h1>
+
+        <div class="seccionProductos">
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="imagenProducto">
+                            <img src="../images\estrellita.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Estrellita pequeña</h2>
+                                    <p class="precioProducto">$0.25</p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+
+                            <!-- cara con estilo tipo hover -->
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">30 unidades</h2>
+                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <!-- Tarjetas de los productos -->
+                    <div class="tarjetaFrente">
+                        <div class="imagenProducto">
+                            <img src="../images\beautiful_london.jpg" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <!-- Parte frontal de las tarjetas de los productos-->
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Gigante Beatiful London</h2>
+                                    <p class="precioProducto">$149.99</p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+
+                            <!-- efecto tipo hover al reverso de las tarjetas -->
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <!-- Tarjetas de los productos -->
+                    <div class="tarjetaFrente">
+                        <div class="imagenProducto">
+                            <img src="../images\marioBros_CP_25.jpg" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <!-- parte frontal de las tarjetas-->
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Mario Bros CP 25 luces</h2>
+                                    <p class="precioProducto">$20.99</p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+
+                            <!-- parte trasera de las tarjetas -->
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <!-- Tarjeta -->
+                    <div class="tarjetaFrente">
+                        <div class="imagenProducto">
+                            <img src="../images\llorona_ET.jpg" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Llorona ET 16 luces</h2>
+                                    <p class="precioProducto">$29.99</p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">30 unidades</h2>
+                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="contenedorBotonInicio">
+        <ul class="navegacionInicio">
+            <li><a href="html/productos.html">Ver todos los productos</a></li>
+        </ul>
+    </div>
+
+
+
+    <!--Cajas de abajo-->
+    <!-- Sección de las promociones -->
+    <section class="productos">
+
+        <h1>¡Últimas unidades!</h1>
+
+        <div class="seccionProductos">
+            <div class="cajaProducto">
+                <div>
+                    <!-- Tarjetas -->
+                    <div class="tarjetaFrente">
+                        <div class="stock">Disponible: 3</div>
+                        <div class="imagenProducto">
+                            <img src="../images\candelaRomana10.png" alt="Imagen de producto">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Candela Romana 10 luces</h2>
+                                    <p class="precioProductoPromo">$0.25 <span class="precioOriginal">$0.50</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock">Disponible: 3</div>
+                        <div class="imagenProducto">
+                            <img src="../images\diamantesVoladores.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Diamantes Voladores</h2>
+                                    <p class="precioProductoPromo">$0.99 <span class="precioOriginal">$1.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock">Disponible: 3</div>
+                        <div class="imagenProducto">
+                            <img src="../images\pavoReal.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Pavo Real</h2>
+                                    <p class="precioProductoPromo">$10.99 <span class="precioOriginal">$16.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock">Disponible: 3</div>
+                        <div class="imagenProducto">
+                            <img src="../images\gallito.png" alt="Cebolla">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Gallito</h2>
+                                    <p class="precioProductoPromo">$10.99 <span class="precioOriginal">$15.60</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">24 unidades</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--logica para el diseño del Stock-->
+        <div class="seccionProductos">
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock5">Disponible: 5</div>
+                        <div class="imagenProducto">
+                            <img src="../images\angryBirds.png" alt="Imagen de producto">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Angry Birds</h2>
+                                    <p class="precioProductoPromo">$7.50 <span class="precioOriginal">$9.25</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 caja</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock5">Disponible: 5</div>
+                        <div class="imagenProducto">
+                            <img src="../images\botellaMagica.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Botella Mágica</h2>
+                                    <p class="precioProductoPromo">$5.99 <span class="precioOriginal">$8.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">10 unidades</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock5">Disponible: 5</div>
+                        <div class="imagenProducto">
+                            <img src="../images\pikachu.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Pikachu</h2>
+                                    <p class="precioProductoPromo">$10.99 <span class="precioOriginal">$12.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">12 unidades</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock5">Disponible: 5</div>
+                        <div class="imagenProducto">
+                            <img src="../images/maripositaGrande.png" alt="Cebolla">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Mariposita Grande</h2>
+                                    <p class="precioProductoPromo">$0.75 <span class="precioOriginal">$1.00</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">3 unidades</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Stock del producto-->
+        <div class="seccionProductos">
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock10">Disponible: 10</div>
+                        <div class="imagenProducto">
+                            <img src="../images\barrilito.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Barrilito Feliz Grande</h2>
+                                    <p class="precioProductoPromo">$5.99 <span class="precioOriginal">$7.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">6 unidades</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock10">Disponible: 10</div>
+                        <div class="imagenProducto">
+                            <img src="../images\lapicito.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Alegría Lapicito</h2>
+                                    <p class="precioProductoPromo">$0.50 <span class="precioOriginal">$0.75</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">10 unidades</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock10">Disponible: 10</div>
+                        <div class="imagenProducto">
+                            <img src="../images\fcBarcelona.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">FC Barcelona 25 luces</h2>
+                                    <p class="precioProductoPromo">$15.99 <span class="precioOriginal">$19.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cajaProducto">
+                <div>
+                    <div class="tarjetaFrente">
+                        <div class="stock10">Disponible: 10</div>
+                        <div class="imagenProducto">
+                            <img src="../images\peony.png" alt="Imagen">
+                        </div>
+                    </div>
+                    <div class="tarjetaDentro">
+                        <div class="flipDentro">
+                            <div class="dentro">
+                                <div class="info-detalles">
+                                    <h2 class="nombreProducto">Peony 25 luces</h2>
+                                    <p class="precioProductoPromo">$15.99 <span class="precioOriginal">$19.99</span></p>
+                                </div>
+                                <div class="flechaDerecha">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                            </div>
+                            <div class="flip-back">
+                                <div class="flechaIzquierda">
+                                    <img src="../images/flechaIzquierda.png" alt="flecha">
+                                </div>
+                                <div class="contenido-hover">
+                                    <h2 class="unidades-texto">1 unidad</h2>
+                                    <a href="../html/promociones.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Promociones</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="contenedorBotonInicio">
+        <ul class="navegacionInicio">
+            <li><a href="../html/promociones.html">Ver todas las promociones</a></li>
+        </ul>
+    </div>
+
+
+    <!-- Sección par poder crear una cuenta e iniciar sesión -->
+    <section class="crearCuenta">
+        <div class="cuadroPromocional">
+            <p class="textoPromocional">Únete a Variety World SV para aplicar a diversas <br>ofertas y contenido
+                personalizado</p>
+
+            <div class="botonesPromocion">
+                <a href="../html/registro.html" class="btnPromocion crear"><img src="../images/agregar-usuario.png"
+                        alt="Crear cuenta"> Crear cuenta </a>
+                <a href="../html/login.html" class="btnPromocion iniciar" id="iniciarSesionPromocion"><img
+                        src="../images/login-icon.png" alt="Iniciar sesión"> Iniciar sesión </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Sección de sobre de nosotros -->
+    <section class="sobreNosotros">
+        <div class="contenido-acerca-de">
+            <div class="imagen-contenedor">
+                <img src="../images/pareja.png" alt="Imagen">
+            </div>
+
+            <div class="texto-contenedor">
+                <h2>Sobre Variety World SV</h2>
+                <p>
+                    Somos una empresa comprometida con ofrecer productos de calidad a precios accesibles. Con más de 10
+                    años de experiencia, nos hemos convertido en la tienda de confianza para cientos de familias.
+                </p>
+
+                <div class="contenedorBotonInicio">
+                    <ul class="navegacionInicio">
+                        <li><a href="../html/quienessomos.html">Conoce más sobre nosotros</a></li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Sección de formas de pago -->
+    <section class="crearCuenta">
+        <div class="cuadroPromocional" id="pagosEnvios">
+            <p class="textoPromocional">Formas de pago y envíos</p>
+
+            <div class="contenedor-dosCajas">
+
+                <div class="cajaPago">
+                    <h2>Formas de pago</h2>
+
+                    <ul class="lista-opciones">
+                        <li>Tarjeta de débito/crédito</li>
+                        <li>Transferencia bancaria</li>
+                        <li>Pago en efectivo</li>
+                    </ul>
+
+                </div>
+
+                <div class="cajaPago">
+                    <h2>Información de envíos</h2>
+
+                    <ul class="lista-opciones">
+                        <li>Cobertura nacional</li>
+                        <li>Entrega a domicilio</li>
+                    </ul>
+
+                    <div class="btnEnvio">
+                        <a href="../html/envios.html" class="btnPromocion iniciar" id="iniciarSesionPromocion"> Ver
+                            detalles de envío y mapas</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <br><br><br><br>
+
+
+    <!--estructura para el pie de página -->
+    <footer class="pie-principal">
+        <div class="contenido-pie">
+            <div class="columna-pie info-marca">
+                <div class="grupo-logo">
+                    <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                    <h3 class="nombre-marca">Fuegos artificiales</h3>
+                </div>
+                <p class="descripcion-marca">
+                    Desde el 2014, iluminamos tus momentos especiales con productos de la mejor calidad. <br>
+                    Gran variedad de luces chinas para cada estilo y presupuesto.  <br>
+                    Miles de clientes satisfechos nos respaldan.  <br>
+                </p>
+            </div>
+            <div class="columna-pie grupo-enlaces">
+                <h4 class="titulo-columna" id="categorias">Categorías</h4>
+                <ul class="lista-enlaces">
+                    <li><a href="../html/productos.html##productos-reyes">Para los reyes del hogar</a></li>
+                    <li><a href="../html/productos.html##productos-recreativos">Recreativo</a></li>
+                    <li><a href="../html/productos.html##productos-nacionales">Producto nacional</a></li>
+                    <li><a href="../html/productos.html##productos-baterias">Baterías</a></li>
+                </ul>
+            </div>
+            <div class="columna-pie grupo-contacto-social">
+                <h4 class="titulo-columna">Contacto</h4>
+                <div class="correoElectronico">
+                    <p class="correo-contacto">
+                        <img class="imagenCorreo" src="../images/correo.png" alt="correo">
+                        varietyworld23@outlook.com
+                    </p>
+
+                </div>
+
+                <h4 class="titulo-columna titulo-social">Síguenos</h4>
+                <div class="enlaces-sociales">
+                    <a href="https://www.facebook.com/luceschinasvarietyworldsv/" target="_blank"><img
+                            class="red-social" src="../images/facebook.png" alt="Ícono"></a>
+                    <a href="https://www.instagram.com/luceschinasvarietyworlds/" target="_blank"><img
+                            class="red-social" src="../images/instagram.png" alt="Ícono"></a>
+                    <a href="https://www.tiktok.com/@luceschinasvarietyworld" target="_blank"><img class="red-social"
+                            src="../images/tik-tok.png" alt="Ícono"></a>
+                    <a href="https://wa.me/50377622211" target="_blank"><img class="red-social"
+                            src="../images/whatsapp.png" alt="Ícono"></a>
+                </div>
+            </div>
+
+        </div>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
+
+    <script src="../js/busqueda.js"></script>
+    <script type="module" src="../js/busqueda.js"></script>
+
+
+
+    <!--
+    <script>
+        //seguridad del sitio web
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>-->
+
+    <div id="mouse-glow" class="mouse-glow"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            // Crear la partícula
+            const particle = document.createElement('div');
+            particle.classList.add('firework-particle');
+
+            // Posicionar en el mouse
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+
+            // Asignar dirección aleatoria en X (para que se abran como chispas)
+            const destinationX = (Math.random() - 0.5) * 100; 
+            particle.style.setProperty('--x', `${destinationX}px`);
+
+            // Asignar color aleatorio (Dorado, Rojo, Blanco)
+            const colors = ['#E6B325', '#FF4757', '#FFFFFF', '#FFD700'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.backgroundColor = color;
+
+            // Agregar al cuerpo
+            document.body.appendChild(particle);
+
+            // Eliminar después de que termine la animación (0.9s)
+            setTimeout(() => {
+                particle.remove();
+            }, 900);
+        });
+    </script>
+
+</body>
+
+</html>

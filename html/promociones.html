@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promociones</title>
+    
+    <link rel="stylesheet" href="../css/encabezado.css">
+    <link rel="stylesheet" href="../css/productos/productos.css">
+    <link rel="stylesheet" href="../css/productos/promociones.css">
+    <link rel="stylesheet" href="../css/pie.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header>
+        <section>
+            <div>
+                <nav>
+                    <ul class="encabezado">
+                        <li id="cajaLogo">
+                            <a href="../index.html">
+                                <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                            </a>
+                        </li>
+                        <p>Fuegos <br>artificiales SV</p>
+                        
+                        <li class="barra">
+                            <input type="text" id="inputBusquedaGlobal" placeholder="Buscar producto" class="inputBusqueda" autocomplete="off">
+                            
+                            <div id="listaSugerencias" class="sugerencias-box"></div>
+                        </li>
+                        
+                        <li class="btnSesion">
+                            <a href="../html/login.html"><img src="../images/login-icon.png" alt="Sesión"> Iniciar sesión</a>
+                        </li>
+                        
+                        <li class="btnCarrito">
+                            <a href="../html/carrito.html"><img src="../images/carrito-icon.png" alt="Carrito"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        
+        <section>
+            <div>
+                <nav>
+                    <ul class="navegacion">
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../html/productos.html">Productos</a></li>
+                        <li><a href="../html/promociones.html">Promociones</a></li>
+                        <li><a href="../html/quienessomos.html">¿Quiénes somos?</a></li>
+                        <li><a href="../html/envios.html">Envíos</a></li>
+                        <li><a href="../html/carrito.html">Ver carrito</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    <main class="promo-container">
+        
+        <section id="seccion-combos">
+            <div class="header-seccion">
+                <h1 class="titulo-promo">Combos de temporada</h1>
+                <p class="subtitulo-promo">Paquetes armados con tus productos favoritos a un precio increíble.</p>
+            </div>
+            
+            <div id="grid-combos" class="seccionProductos">
+                <p class="cargando">Cargando combos...</p>
+            </div>
+        </section>
+
+        <hr class="separador-dorado">
+
+        <section id="seccion-liquidacion">
+            <div class="header-seccion">
+                <h1 class="titulo-promo titulo-oferta">Zona de liquidación</h1>
+                <p class="subtitulo-promo">Últimas unidades con descuentos especiales por bajo stock.</p>
+            </div>
+
+            <div id="contenedor-ofertas" class="contenedor-relativo">
+                
+                <div id="ofertas-bloqueadas" class="bloqueo-contenido">
+                    <div class="candado-info">
+                        <div class="icono-bg"><i class="fa-solid fa-lock"></i></div>
+                        <h2>Contenido exclusivo</h2>
+                        <p>Estas ofertas son solo para miembros registrados de Variety World SV.</p>
+                        <a href="login.html" class="btn-desbloquear">Iniciar sesión para ver</a>
+                        <p class="texto-peque">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+                    </div>
+                    <div class="fondo-fake-productos"></div>
+                </div>
+
+                <div id="grid-ofertas" class="seccionProductos" style="display: none;">
+                    </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modalProducto" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="cerrarModal()">&times;</button>
+            
+            <div class="modal-body">
+                <div class="modal-media">
+                    <div class="media-container" id="modalMediaContainer"></div>
+                    
+                    <button id="btnMediaPrev" class="flecha-carrusel izquierda" style="display:none;" onclick="cambiarMedia(-1)">&#10094;</button>
+                    <button id="btnMediaNext" class="flecha-carrusel derecha" style="display:none;" onclick="cambiarMedia(1)">&#10095;</button>
+                    </div>
+                
+                <div class="modal-info">
+                    <h2 id="modalNombre">Nombre</h2>
+                    <p id="modalPrecio" class="precio-destacado">$0.00</p>
+                    
+                    <div class="badge-stock" id="modalBadgeStock" style="display:none;">¡Pocas unidades!</div>
+                    
+                    <div id="modalDescripcion" class="descripcion-texto">...</div>
+                    
+                    <div class="controles-compra">
+                        <div class="input-cantidad">
+                            <button onclick="cambiarCantidad(-1)">-</button>
+                            <input type="number" id="inputCantidad" value="1" min="1" readonly>
+                            <button onclick="cambiarCantidad(1)">+</button>
+                        </div>
+
+                        <p class="texto-total-modal">
+                            Total a<br>pagar:
+                            <br>
+                            <span id="precioTotalCalculado" class="precio-dinamico">$${datos.precio.toFixed(2)}</span>
+                        </p>
+                        <button class="btn-agregar" onclick="agregarAlCarrito()">Agregar al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <footer class="pie-principal">
+        <div class="contenido-pie">
+            
+            <div class="columna-pie info-marca">
+                <div class="grupo-logo">
+                    <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                    <h3 class="nombre-marca">Fuegos artificiales</h3>
+                </div>
+                <p class="descripcion-marca">
+                    Desde el 2014, iluminamos tus momentos especiales con productos de la mejor calidad. <br>
+                    Gran variedad de luces chinas para cada estilo y presupuesto.  <br>
+                    Miles de clientes satisfechos nos respaldan.  <br>
+                </p>
+            </div>
+            <div class="columna-pie grupo-enlaces">
+                <h4 class="titulo-columna" id="categorias">Categorías</h4>
+                <ul class="lista-enlaces">
+                    <li><a href="../html/productos.html##productos-reyes">Para los reyes del hogar</a></li>
+                    <li><a href="../html/productos.html##productos-recreativos">Recreativo</a></li>
+                    <li><a href="../html/productos.html##productos-nacionales">Producto nacional</a></li>
+                    <li><a href="../html/productos.html##productos-baterias">Baterías</a></li>
+                </ul>
+            </div>
+            <div class="columna-pie grupo-contacto-social">
+                <h4 class="titulo-columna">Contacto</h4>
+                <div class="correoElectronico">
+                    <p class="correo-contacto">
+                    <img class="imagenCorreo" src="../images/correo.png" alt="correo">
+                    varietyworld23@outlook.com
+                    </p>
+
+                </div>
+
+                <h4 class="titulo-columna titulo-social">Síguenos</h4>
+                <div class="enlaces-sociales">
+                    <a href="https://www.facebook.com/luceschinasvarietyworldsv/" target="_blank"><img class="red-social" src="../images/facebook.png" alt="Ícono"></a>
+                    <a href="https://www.instagram.com/luceschinasvarietyworlds/" target="_blank"><img class="red-social" src="../images/instagram.png" alt="Ícono"></a>
+                    <a href="https://www.tiktok.com/@luceschinasvarietyworld" target="_blank"><img class="red-social" src="../images/tik-tok.png" alt="Ícono"></a>
+                    <a href="https://wa.me/50377622211" target="_blank"><img class="red-social" src="../images/whatsapp.png" alt="Ícono"></a>
+                </div>
+            </div>
+
+        </div>
+
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/promociones.js"></script>
+    <script type="module" src="../js/busqueda.js"></script>
+
+
+    <script>
+        //seguridad del sitio web
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>
+
+    
+</body>
+</html>

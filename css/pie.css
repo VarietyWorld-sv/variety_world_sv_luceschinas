@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Contenedor general */
+.pie-principal {
+    background-color: #070519; 
+    color: #ffffff;
+    padding: 0; 
+    font-family: 'Roboto', sans-serif;
+    border-top: 1px solid #f8f8f8;
+}
+
+/* Contenido que contiene las columnas */
+.contenido-pie {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 40px 20px 20px 20px; 
+    display: flex;
+    justify-content: space-between;
+    gap: 40px; 
+    flex-wrap: wrap; 
+    background-color: #070519;
+}
+
+/* Estilos de imagen para el logo */
+#imagenLogo {
+    width: 70px;
+    height: 60px;
+    border-radius: 8px;
+    margin-right: 15px;
+    background-color: #070519;
+}
+
+/* Estilos para cada columna */
+.columna-pie {
+    flex: 1;
+    min-width: 200px;
+    background-color: #070519;
+}
+
+.info-marca {
+    max-width: 350px;
+    min-width: 300px; 
+    background-color: #070519;
+}
+
+.grupo-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #070519;
+}
+
+.nombre-marca {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    background-color: #070519;
+}
+
+.nombre-marca:hover{
+    cursor: default;
+}
+
+.descripcion-marca {
+    font-size: 0.9em;
+    line-height: 1.6;
+    color: #f8f8f8;
+    background-color: transparent;
+    width: 400px;
+}
+
+.descripcion-marca:hover{
+    cursor: default;
+}
+
+/* Títulos de columna */
+.titulo-columna {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #f8f8f8;
+    background-color: transparent;
+}
+
+.titulo-columna:hover{
+    cursor: default;
+}
+
+#categorias {
+    padding-left: 100px;
+}
+
+
+/* Columna de enlaces (Categorías) */
+.lista-enlaces {
+    list-style: none;
+    padding-left: 100px;
+    background-color: transparent;
+}
+
+.lista-enlaces li {
+    margin-bottom: 10px;
+    background-color:transparent;
+}
+
+.lista-enlaces a {
+    color: #cccccc;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: color 0.3s;
+}
+
+.lista-enlaces a:hover {
+    color: #ffc72c;
+}
+
+/* Columna de Contacto y Social */
+.correo-contacto {
+    display: flex;
+    align-items: center;
+    font-size: 0.95em;
+    margin-bottom: 30px;
+    color: #f8f8f8;
+    background-color: transparent;
+}
+
+.correoElectronico {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+}
+
+.imagenCorreo {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    background-color: transparent;
+}
+
+.correo-contacto p{
+    padding-left: 15px;
+    background-color: transparent;
+}
+
+.enlaces-sociales {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+}
+
+.red-social {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    transition: transform 0.3s;
+    background-color: transparent;
+}
+
+.enlaces-sociales a{
+    background-color: transparent;
+}
+
+/* Botón flotante de admin */
+.btn-volver-dashboard {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #E6B325;
+    color: #0A0A23;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 2px solid #722F37;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease;
+}
+.btn-volver-dashboard:hover {
+    transform: scale(1.05);
+}
+
+.btn-volver-dashboard i {
+    background-color: transparent !important;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+
+    .contenido-pie {
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        gap: 40px;
+    }
+
+    .columna-pie, 
+    .info-marca {
+        width: 100%;
+        min-width: auto;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .grupo-logo {
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    #categorias {
+        padding-left: 0;
+    }
+
+    .lista-enlaces {
+        padding-left: 0;
+    }
+
+    .correo-contacto {
+        justify-content: center;
+    }
+    
+    .correoElectronico {
+        justify-content: center;
+    }
+
+    .enlaces-sociales {
+        justify-content: center;
+        margin-top: 10px;
+        background-color: transparent;
+    }
+    
+    .red-social {
+        margin: 0 10px;
+        background-color: transparent;
+    }
+}

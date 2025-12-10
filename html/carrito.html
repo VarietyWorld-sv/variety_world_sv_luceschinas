@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito</title>
+    
+    <link rel="stylesheet" href="../css/encabezado.css">
+    <link rel="stylesheet" href="../css/pie.css">
+    <link rel="stylesheet" href="../css/productos/carrito.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header>
+        <section>
+            <div>
+                <nav>
+                    <ul class="encabezado">
+                        <li id="cajaLogo">
+                            <a href="../index.html"><img src="../images/logo_b.png" alt="Logo" id="imagenLogo"></a>
+                        </li>
+                        <p>Fuegos <br>artificiales SV</p>
+                        <li class="barra">
+                            <input type="text" placeholder="Buscar producto" class="inputBusqueda">
+                        </li>
+                        <li class="btnSesion">
+                            <a href="../html/login.html"><img src="../images/login-icon.png" alt="Iniciar sesión"> Iniciar sesión</a>
+                        </li>
+                        <li class="btnCarrito">
+                            <a href="../html/carrito.html"><img src="../images/carrito-icon.png" alt="Carrito"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        <section>
+            <div>
+                <nav>
+                    <ul class="navegacion">
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../html/productos.html">Productos</a></li>
+                        <li><a href="../html/promociones.html">Promociones</a></li>
+                        <li><a href="../html/quienessomos.html">¿Quiénes somos?</a></li>
+                        <li><a href="../html/envios.html">Envíos</a></li>
+                        <li><a href="../html/carrito.html">Ver carrito</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    <main class="carrito-wrapper">
+        <h1 class="titulo-carrito">Tu Carrito de Compras</h1>
+
+        <div id="contenido-carrito" class="contenido-carrito">
+            
+            <div class="lista-productos" id="lista-productos">
+                </div>
+
+            <div class="resumen-compra">
+                <h2>Resumen del pedido</h2>
+                
+                <div class="resumen-fila">
+                    <span>Subtotal</span>
+                    <span id="subtotal-monto">$0.00</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-checkout">
+                    
+                    <div class="grupo-input-carrito">
+                        <label for="select-zona"><i class="fa-solid fa-map-location-dot"></i> Zona de Envío:</label>
+                        <select id="select-zona">
+                            </select>
+                    </div>
+
+                    <div class="grupo-input-carrito" id="bloque-direccion" style="display:none;">
+                        <label for="input-direccion"><i class="fa-solid fa-house"></i> Dirección exacta:</label>
+                        <textarea id="input-direccion" rows="2" placeholder="Colonia, #Casa, referencia..."></textarea>
+                    </div>
+
+                    <div class="grupo-input-carrito">
+                        <label for="select-pago"><i class="fa-solid fa-credit-card"></i> Método de Pago:</label>
+                        <select id="select-pago">
+                            <option value="" disabled selected>Selecciona uno...</option>
+                            <option value="Efectivo">Efectivo contra entrega</option>
+                            <option value="Transferencia">Transferencia Bancaria</option>
+                            <option value="Tarjeta">Tarjeta de Crédito/Débito</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="resumen-fila">
+                    <span>Costo de envío</span>
+                    <span id="envio-monto">$0.00</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="resumen-total">
+                    <span>Total a pagar</span>
+                    <span id="total-monto">$0.00</span>
+                </div>
+
+                <button id="btn-finalizar" class="btn-checkout">
+                    Confirmar pedido
+                </button>
+                
+                <button id="btn-whatsapp" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> Consultar por WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <div id="carrito-vacio" class="carrito-vacio" style="display: none;">
+            <i class="fa-solid fa-cart-arrow-down icono-vacio"></i>
+            <h2>Tu carrito está vacío</h2>
+            <p>¡Explora nuestros productos pirotécnicos y llena tu celebración de luz!</p>
+            <a href="productos.html" class="btn-volver">Ver Productos</a>
+        </div>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="pie-principal">
+        <div class="contenido-pie">
+            
+            <!-- Logo y descripción -->
+            <div class="columna-pie info-marca">
+                <div class="grupo-logo">
+                    <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                    <h3 class="nombre-marca">Fuegos artificiales</h3>
+                </div>
+                <p class="descripcion-marca">
+                    Desde el 2014, iluminamos tus momentos especiales con productos de la mejor calidad. <br>
+                    Gran variedad de luces chinas para cada estilo y presupuesto.  <br>
+                    Miles de clientes satisfechos nos respaldan.  <br>
+                </p>
+                </p>
+            </div>
+
+            <!-- Categorías -->
+            <div class="columna-pie grupo-enlaces">
+                <h4 class="titulo-columna" id="categorias">Categorías</h4>
+                <ul class="lista-enlaces">
+                    <li><a href="../html/productos.html##productos-reyes">Para los reyes del hogar</a></li>
+                    <li><a href="../html/productos.html##productos-recreativos">Recreativo</a></li>
+                    <li><a href="../html/productos.html##productos-nacionales">Producto nacional</a></li>
+                    <li><a href="../html/productos.html##productos-baterias">Baterías</a></li>
+                </ul>
+            </div>
+
+            <!-- Contacto y Redes Sociales -->
+            <div class="columna-pie grupo-contacto-social">
+                <h4 class="titulo-columna">Contacto</h4>
+                <div class="correoElectronico">
+                    <p class="correo-contacto">
+                    <img class="imagenCorreo" src="../images/correo.png" alt="correo">
+                    varietyworld23@outlook.com
+                    </p>
+
+                </div>
+
+                <h4 class="titulo-columna titulo-social">Síguenos</h4>
+                <div class="enlaces-sociales">
+                    <a href="https://www.facebook.com/luceschinasvarietyworldsv/" target="_blank"><img class="red-social" src="../images/facebook.png" alt="Ícono"></a>
+                    <a href="https://www.instagram.com/luceschinasvarietyworlds/" target="_blank"><img class="red-social" src="../images/instagram.png" alt="Ícono"></a>
+                    <a href="https://www.tiktok.com/@luceschinasvarietyworld" target="_blank"><img class="red-social" src="../images/tik-tok.png" alt="Ícono"></a>
+                    <a href="https://wa.me/50377622211" target="_blank"><img class="red-social" src="../images/whatsapp.png" alt="Ícono"></a>
+                </div>
+            </div>
+
+        </div>
+
+    </footer>
+
+    
+
+    <script src="../js/carrito.js"></script> 
+
+    <div id="modalGuestCheckout" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('modalGuestCheckout').style.display='none'">&times;</span>
+            
+            <h2 style="color: #E6B325; text-align: center;">Finalizar como invitado</h2>
+            <p style="text-align: center; color: #ccc; margin-bottom: 20px;">
+                Ingresa tus datos para contactarte sobre la entrega.
+            </p>
+
+            <form id="formGuest">
+                <div class="grupo-input-carrito">
+                    <label>Nombre completo:</label>
+                    <input type="text" id="guest-nombre" placeholder="Ej. Juan Pérez" required>
+                </div>
+
+                <div class="grupo-input-carrito">
+                    <label>Teléfono:</label>
+                    <input type="tel" id="guest-telefono" placeholder="Ej. 70007000" required>
+                </div>
+
+                <button type="submit" class="btn-checkout">Confirmar pedido</button>
+            </form>
+
+            <div style="margin-top: 20px; border-top: 1px solid #555; padding-top: 15px; text-align: center;">
+                <p style="font-size: 0.9rem; color: #aaa;">¿Prefieres registrarte?</p>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                    <a href="login.html" style="color: #E6B325; text-decoration: none;">Iniciar sesión</a>
+                    <span style="color: #555;">|</span>
+                    <a href="registro.html" style="color: #E6B325; text-decoration: none;">Crear cuenta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Para proteger el código: -->
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>
+
+</body>
+</html>

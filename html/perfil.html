@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil</title>
+    <link rel="stylesheet" href="../css/encabezado.css">
+    <link rel="stylesheet" href="../css/pie.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <header>
+        <!--Para mantener el diseño del encabezado-->
+        <section>
+            <div>
+                <nav>
+
+                    <ul class="encabezado">
+
+                        <div id="cajaLogo">
+                            <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                        </div>
+
+                        <p>Fuegos <br>artificiales SV</p>
+
+
+                        <li class="barra">
+                            <input type="text" id="inputBusquedaGlobal" placeholder="Buscar producto"
+                                class="inputBusqueda" autocomplete="off">
+
+                            <div id="listaSugerencias" class="sugerencias-box"></div>
+                        </li>
+
+                        <li class="btnSesion">
+                            <a href="../html/login.html"><img src="../images/login-icon.png" alt="Iniciar sesión">
+                                Iniciar sesión</a>
+                        </li>
+
+                        <li class="btnCarrito">
+                            <a href="../html/carrito.html"><img src="../images/carrito-icon.png" alt="Carrito"></a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        <!--Siguiente sección del encabezado-->
+        <section>
+            <div>
+                <nav>
+                    <ul class="navegacion">
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../html/productos.html">Productos</a></li>
+                        <li><a href="../html/promociones.html">Promociones</a></li>
+                        <li><a href="../html/quienessomos.html">¿Quiénes somos?</a></li>
+                        <li><a href="../html/envios.html">Envíos</a></li>
+                        <li><a href="../html/carrito.html">Ver carrito</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+
+    <main class="dashboard-container">
+
+        <aside class="profile-sidebar card-dashboard">
+
+            <h2 id="saludo-top" class="titulo-saludo">Hola!</h2>
+
+            <div class="profile-img-container">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                    alt="Foto de perfil" id="foto-perfil-img">
+
+                <button id="btn-cambiar-foto" class="btn-edit-photo" title="Cambiar foto">
+                    <i class="fa-solid fa-camera"></i>
+                </button>
+
+                <input type="file" id="input-foto-archivo" accept="image/*" style="display: none;">
+            </div>
+
+            <div class="profile-details">
+                <div class="detail-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div class="cajita">
+                        <p class="detail-label">Correo electrónico</p>
+                        <p class="detail-value" id="email-txt">cargando...</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-lock"></i>
+                    <div class="cajita">
+                        <p class="detail-label">Contraseña</p>
+                        <p class="detail-value" id="password-mask-txt">********</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <div class="cajita">
+                        <p class="detail-label">Teléfono</p>
+                        <p class="detail-value" id="telefono-txt">No registrado</p>
+                    </div>
+                </div>
+            </div>
+
+            <button id="btnAbrirEdicion" class="btn-editar-perfil">
+                <i class="fa-solid fa-pen-to-square"></i> Editar perfil
+            </button>
+
+            <button id="btnCerrarSesion" class="btn-auth btn-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+            </button>
+
+            <div class="nivel-cliente-card">
+                <h3>Nivel de cliente</h3>
+                
+                <div class="icono-nivel">
+                    <i class="fa-solid fa-medal" id="icono-medalla"></i>
+                </div>
+
+                <h4 id="texto-nivel">Explorador</h4>
+                
+                <div class="barra-progreso-fondo">
+                    <div class="barra-progreso-relleno" id="barra-nivel" style="width: 0%;"></div>
+                </div>
+
+                <p id="texto-falta-nivel" class="texto-peque-nivel">
+                    Te faltan <span style="color:#E6B325; font-weight:bold; background-color: transparent;">$0.00</span> para ser cliente frecuente
+                </p>
+            </div>
+        </aside>
+
+
+        <section class="main-content">
+
+            <div class="stats-widget card-dashboard">
+                <div class="stat-icon">
+                    <img src="../images/carrito-icon.png" alt="Compras" style="filter: brightness(0) invert(1);">
+                </div>
+                <div class="stat-info">
+                    <h3>Total en compras</h3>
+                    <p class="stat-number" id="total-compras-txt">$0.00</p>
+                </div>
+            </div>
+
+            <div class="card-dashboard banner-pyro">
+                <div class="pyro-text">
+                    <h3>¿Faltan ánimos para la fiesta?</h3>
+                    <p>No dejes que se apague la noche. ¡Compra tu combo ahora!</p>
+                </div>
+                <a href="promociones.html" class="btn-pyro-action">
+                    Ver increíbles ofertas <i class="fa-solid fa-fire"></i>
+                </a>
+            </div>
+
+            <div class="recent-orders card-dashboard">
+                <div class="card-header-flex">
+                    <h2>Historial de pedidos</h2>
+                </div>
+
+                <div id="orders-list-container" class="orders-list">
+                    <p style="color: #ccc; font-style: italic;">Cargando historial...</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <div id="orderModal" class="modal-overlay">
+        <div class="modal-content card-dashboard">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-order-title">Detalles del pedido</h2>
+            <div id="modal-body-content">
+                <p>Cargando detalles...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalEditarPerfil" class="modal-overlay">
+        <div class="modal-content card-dashboard" style="max-width: 500px;">
+            <span class="close-modal-edit"
+                style="cursor:pointer; float:right; font-size:2rem; background-color: transparent;">&times;</span>
+            <h2 style="color:#E6B325; text-align:center;">Editar mis datos</h2>
+
+            <form id="formEditarPerfil">
+
+                <div class="grupo-input-carrito">
+                    <label>Nombre:</label>
+                    <input type="text" id="edit-nombre" required>
+                </div>
+
+                <div class="grupo-input-carrito">
+                    <label>Apellidos:</label>
+                    <input type="text" id="edit-apellidos" required>
+                </div>
+
+                <div class="grupo-input-carrito">
+                    <label>Correo electrónico:</label>
+                    <input type="email" id="edit-email" placeholder="ejemplo@correo.com (Opcional)">
+                </div>
+                
+                <div class="grupo-input-carrito">
+                    <label>Teléfono:</label>
+                    <input type="tel" id="edit-telefono">
+                </div>
+
+                <div class="grupo-input-carrito">
+                    <label>Fecha de nacimiento:</label>
+                    <input type="date" id="edit-fecha">
+                </div>
+
+                <div class="grupo-input-carrito">
+                    <label>Género:</label>
+                    <select id="edit-genero">
+                        <option value="">Seleccionar...</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background-color: transparent;">
+                    <div class="grupo-input-carrito">
+                        <label>Departamento:</label>
+                        <input type="text" id="edit-departamento" placeholder="Ej. San Salvador">
+                    </div>
+                    <div class="grupo-input-carrito">
+                        <label>Municipio:</label>
+                        <input type="text" id="edit-municipio" placeholder="Ej. Soyapango">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-checkout">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Datos y estructura del pie de página-->
+    <footer class="pie-principal">
+        <div class="contenido-pie">
+            <div class="columna-pie info-marca">
+                <div class="grupo-logo">
+                    <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                    <h3 class="nombre-marca">Fuegos artificiales</h3>
+                </div>
+                <p class="descripcion-marca">
+                    Desde el 2014, iluminamos tus momentos especiales con productos de la mejor calidad. <br>
+                    Gran variedad de luces chinas para cada estilo y presupuesto.  <br>
+                    Miles de clientes satisfechos nos respaldan.  <br>
+                </p>
+            </div>
+
+            <!--Categorías -->
+            <div class="columna-pie grupo-enlaces">
+                <h4 class="titulo-columna" id="categorias">Categorías</h4>
+                <ul class="lista-enlaces">
+                    <li><a href="../html/productos.html##productos-reyes">Para los reyes del hogar</a></li>
+                    <li><a href="../html/productos.html##productos-recreativos">Recreativo</a></li>
+                    <li><a href="../html/productos.html##productos-nacionales">Producto nacional</a></li>
+                    <li><a href="../html/productos.html##productos-baterias">Baterías</a></li>
+                </ul>
+            </div>
+
+            <!-- Info de contacto y redes sociales -->
+            <div class="columna-pie grupo-contacto-social">
+                <h4 class="titulo-columna">Contacto</h4>
+                <div class="correoElectronico">
+                    <p class="correo-contacto">
+                        <img class="imagenCorreo" src="../images/correo.png" alt="correo">
+                        varietyworld23@outlook.com
+                    </p>
+
+                </div>
+
+                <h4 class="titulo-columna titulo-social">Síguenos</h4>
+                <div class="enlaces-sociales">
+                    <a href="https://www.facebook.com/luceschinasvarietyworldsv/" target="_blank"><img
+                            class="red-social" src="../images/facebook.png" alt="Ícono"></a>
+                    <a href="https://www.instagram.com/luceschinasvarietyworlds/" target="_blank"><img
+                            class="red-social" src="../images/instagram.png" alt="Ícono"></a>
+                    <a href="https://www.tiktok.com/@luceschinasvarietyworld" target="_blank"><img class="red-social"
+                            src="../images/tik-tok.png" alt="Ícono"></a>
+                    <a href="https://wa.me/50377622211" target="_blank"><img class="red-social"
+                            src="../images/whatsapp.png" alt="Ícono"></a>
+                </div>
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/perfil.js"></script>
+    <script type="module" src="../js/busqueda.js"></script>
+
+
+    <script>
+        //seguridad del sitio web
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>
+
+</body>
+</html>

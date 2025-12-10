@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #0A0A23; 
+    color: #F8F8FF;
+    font-family: 'Roboto', sans-serif;
+}
+
+h2, p {
+    background-color: transparent;
+}
+
+span{
+    background-color: transparent;
+}
+
+.carrito-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    min-height: 60vh;
+}
+
+.titulo-carrito {
+    text-align: center;
+    color: #E6B325;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contenido-carrito {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.lista-productos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item-carrito {
+    display: flex;
+    align-items: center;
+    background-color: #1E1E49;
+    border: 2px solid #5D4037;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: border-color 0.3s;
+}
+
+.item-carrito:hover {
+    border-color: #E6B325;
+}
+
+.img-item-carrito {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid #8B4513;
+    margin-right: 20px;
+}
+
+.info-item {
+    flex-grow: 1;
+    background-color: transparent;
+}
+
+.info-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: transparent;
+}
+
+.precio-unitario {
+    color: #ccc;
+    font-size: 0.9rem;
+    background-color: transparent;
+}
+
+.subtotal-item {
+    color: #E6B325;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 5px;
+    background-color: transparent;
+}
+
+.controles-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px;
+    background-color: transparent;
+}
+
+.cantidad-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #722F37;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.btn-cant {
+    background-color: #722F37;
+    color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn-cant:hover {
+    background-color: #8b332c;
+}
+
+.input-cant-carrito {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    background-color: #0A0A23;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.btn-eliminar {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-eliminar:hover {
+    color: #ff0000;
+}
+
+.resumen-compra {
+    background-color: #1E1E49;
+    border: 2px solid #E6B325;
+    border-radius: 15px;
+    padding: 25px;
+    height: fit-content;
+    position: sticky;
+    top: 180px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.resumen-compra h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid #555;
+    padding-bottom: 15px;
+    color: #E6B325;
+    background-color: transparent;
+}
+
+.resumen-fila {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    background-color: transparent;
+}
+
+.divider {
+    height: 1px;
+    background-color: #555;
+    margin: 20px 0;
+    background-color: transparent;
+}
+
+.form-checkout {
+    margin: 20px 0;
+    text-align: left;
+    background-color: transparent;
+}
+
+.grupo-input-carrito {
+    margin-bottom: 15px;
+    background-color: transparent;
+}
+
+.grupo-input-carrito label {
+    display: block;
+    font-size: 0.9rem;
+    color: #E6B325;
+    margin-bottom: 8px;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.grupo-input-carrito select,
+.grupo-input-carrito textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #722F37;
+    background-color: #0A0A23;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.grupo-input-carrito select:focus,
+.grupo-input-carrito textarea:focus {
+    border-color: #E6B325; 
+    box-shadow: 0 0 5px rgba(230, 179, 37, 0.5);
+}
+
+.grupo-input-carrito textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.resumen-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #E6B325;
+    margin-bottom: 25px;
+    background-color: transparent;
+}
+
+.btn-checkout {
+    width: 100%;
+    padding: 15px;
+    background-color: #E6B325;
+    color: #0A0A23;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-checkout:hover {
+    transform: scale(1.02);
+    background-color: #ffd700;
+}
+
+.btn-checkout:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-whatsapp {
+    width: 100%;
+    padding: 12px;
+    background-color: #25D366;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-whatsapp:hover {
+    background-color: #128c7e;
+}
+
+.btn-whatsapp i {
+    background-color: transparent;
+}
+
+.carrito-vacio {
+    text-align: center;
+    padding: 50px;
+    background-color: #1E1E49;
+    border-radius: 20px;
+    border: 2px dashed #555;
+    margin-top: 20px;
+}
+
+.carrito-vacio i {
+    background-color: transparent;
+}
+
+.icono-vacio {
+    font-size: 5rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #722F37;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 2px solid #fff;
+    transition: transform 0.2s;
+}
+
+.btn-volver:hover {
+    transform: scale(1.05);
+    background-color: #8b332c;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: #1E1E49;
+    border: 2px solid #E6B325;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.close-modal:hover { color: #E6B325; }
+
+#formGuest .grupo-input-carrito input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #722F37;
+    background-color: #0A0A23;
+    color: white;
+    border-radius: 8px;
+    outline: none;
+}
+
+#formGuest .grupo-input-carrito input:focus {
+    border-color: #E6B325;
+}
+
+#formGuest label, div, input {
+    background-color: #1E1E49;
+}
+
+#formGuest {
+    background-color: transparent;
+}
+
+
+/* --- RESPONSIVO (MÓVIL) --- */
+
+@media (max-width: 768px) {
+    .contenido-carrito {
+        grid-template-columns: 1fr;
+    }
+    
+    .resumen-compra {
+        position: static;
+        order: 2;
+    }
+    
+    .lista-productos {
+        order: 1;
+    }
+    
+    .item-carrito {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .img-item-carrito {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .controles-item {
+        margin-left: 0;
+        margin-top: 15px;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+    }
+}

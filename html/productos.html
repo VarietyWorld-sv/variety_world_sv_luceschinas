@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link rel="stylesheet" href="../css/encabezado.css">
+    <link rel="stylesheet" href="../css/productos/productos.css">
+    <link rel="stylesheet" href="../css/pie.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <section>
+            <div>
+                <nav>
+                    <ul class="encabezado">
+                        <li id="cajaLogo">
+                            <a href="../index.html">
+                                <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                            </a>
+                        </li>
+                        <p>Fuegos <br>artificiales SV</p>
+                        <li class="barra">
+                            <input type="text" id="inputBusquedaGlobal" placeholder="Buscar producto" class="inputBusqueda" autocomplete="off">
+                            <div id="listaSugerencias" class="sugerencias-box"></div>
+                        </li>
+                        <li class="btnSesion">
+                            <a href="../html/login.html"><img src="../images/login-icon.png" alt="Iniciar sesión"> Iniciar sesión</a>
+                        </li>
+                        <li class="btnCarrito">
+                            <a href="../html/carrito.html"><img src="../images/carrito-icon.png" alt="Carrito"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+        <section>
+            <div>
+                <nav>
+                    <ul class="navegacion">
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../html/productos.html">Productos</a></li>
+                        <li><a href="../html/promociones.html">Promociones</a></li>
+                        <li><a href="../html/quienessomos.html">¿Quiénes somos?</a></li>
+                        <li><a href="../html/envios.html">Envíos</a></li>
+                        <li><a href="../html/carrito.html">Ver carrito</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </header>
+
+    <div class="main-content-wrapper">
+
+        <section class="categorias" id="sidebar-categorias">
+            <div class="category all-products-link" onclick="window.filtrarPorCategoria('todos')">
+                <a href="#"><h3>Ver Todos</h3></a>
+            </div>
+
+            <div id="lista-categorias-dinamica"></div>
+
+            <div class="filtro-container">
+                <label for="sortPrecio">Ordenar por precio:</label>
+                <select id="sortPrecio" onchange="window.ordenarProductos(this.value)">
+                    <option value="defecto">Destacados</option>
+                    <option value="asc">Menor a Mayor ($)</option>
+                    <option value="desc">Mayor a Menor ($$$)</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="contenedor-productos" id="contenedor-principal">
+            <p class="cargando" style="text-align:center; margin-top:50px;">Cargando catálogo...</p>
+        </section>
+
+    </div>
+
+    <div id="modalProducto" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="cerrarModal()">&times;</button>
+
+            <div class="modal-body">
+                <div class="modal-media" style="position: relative;">
+    
+                    <div class="media-container" id="modalMediaContainer">
+                        </div>
+
+                    <button id="btnMediaPrev" class="flecha-carrusel izquierda" style="display:none;" onclick="cambiarMedia(-1)">
+                        &#10094; </button>
+
+                    <button id="btnMediaNext" class="flecha-carrusel derecha" style="display:none;" onclick="cambiarMedia(1)">
+                        &#10095; </button>
+
+                </div>
+
+                <div class="modal-info">
+                    <h2 id="modalNombre">Nombre del Producto</h2>
+                    <p id="modalPrecio" class="precio-destacado">$0.00</p>
+                    <p id="modalCodigo" style="color: #666; font-weight: bold; margin-bottom: 10px;"></p>
+                    <p id="modalDescripcion" class="descripcion-texto">Descripción detallada...</p>
+
+                    <div class="stock-info">
+                        <span>Disponibles: <strong id="modalStock">0</strong></span>
+                        <span>Unidades por paquete: <strong id="modalPaquete">1</strong></span>
+                    </div>
+
+                    <div class="controles-compra">
+                        <div class="input-cantidad">
+                            <button onclick="cambiarCantidad(-1)">-</button>
+                            <input type="number" id="inputCantidad" value="1" min="1" readonly>
+                            <button onclick="cambiarCantidad(1)">+</button>
+                        </div>
+                        <p style="color: #ccc; font-size: 0.9rem;justify-content: center; text-align: center;">
+                            Total a<br>pagar:<br><span id="precioTotalCalculado" style="color: #E6B325; font-weight: bold;">$0.00</span>
+                        </p>
+                        <button class="btn-agregar" onclick="agregarAlCarrito()">
+                            Agregar al Carrito
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="pie-principal">
+        <div class="contenido-pie">
+            <div class="columna-pie info-marca">
+                <div class="grupo-logo">
+                    <img src="../images/logo_b.png" alt="Logo" id="imagenLogo">
+                    <h3 class="nombre-marca">Fuegos artificiales</h3>
+                </div>
+                <p class="descripcion-marca">
+                    Desde el 2014, iluminamos tus momentos especiales con productos de la mejor calidad. <br>
+                    Gran variedad de luces chinas para cada estilo y presupuesto.  <br>
+                    Miles de clientes satisfechos nos respaldan.  <br>
+                </p>
+            </div>
+            <div class="columna-pie grupo-enlaces">
+                <h4 class="titulo-columna" id="categorias">Categorías</h4>
+                <ul class="lista-enlaces">
+                    <li><a href="../html/productos.html##productos-reyes">Para los reyes del hogar</a></li>
+                    <li><a href="../html/productos.html##productos-recreativos">Recreativo</a></li>
+                    <li><a href="../html/productos.html##productos-nacionales">Producto nacional</a></li>
+                    <li><a href="../html/productos.html##productos-baterias">Baterías</a></li>
+                </ul>
+            </div>
+            <div class="columna-pie grupo-contacto-social">
+                <h4 class="titulo-columna">Contacto</h4>
+                <div class="correoElectronico">
+                    <p class="correo-contacto">
+                        <img class="imagenCorreo" src="../images/correo.png" alt="correo">
+                        varietyworld23@outlook.com
+                    </p>
+
+                </div>
+
+                <h4 class="titulo-columna titulo-social">Síguenos</h4>
+                <div class="enlaces-sociales">
+                    <a href="https://www.facebook.com/luceschinasvarietyworldsv/" target="_blank"><img
+                            class="red-social" src="../images/facebook.png" alt="Ícono"></a>
+                    <a href="https://www.instagram.com/luceschinasvarietyworlds/" target="_blank"><img
+                            class="red-social" src="../images/instagram.png" alt="Ícono"></a>
+                    <a href="https://www.tiktok.com/@luceschinasvarietyworld" target="_blank"><img class="red-social"
+                            src="../images/tik-tok.png" alt="Ícono"></a>
+                    <a href="https://wa.me/50377622211" target="_blank"><img class="red-social"
+                            src="../images/whatsapp.png" alt="Ícono"></a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/productos.js"></script>
+    <script type="module" src="../js/busqueda.js"></script>
+
+        <script>
+        //seguridad del sitio web
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.onkeydown = function (e) {
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>
+
+</body>
+</html>

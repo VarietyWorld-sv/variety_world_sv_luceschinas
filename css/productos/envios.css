@@ -1,0 +1,260 @@
+#cobertura {
+    padding: 60px 20px;
+    background-color: transparent;
+    color: #f8f8f8;
+}
+
+.contenedor-cobertura {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2{
+    font-size: 2.4em; 
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #f8f8f8;
+    text-align: center;
+}
+
+.cobertura-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    height: 500px;
+}
+
+/* Títulos */
+.subtitulo-envios {
+    color: #fffdf8;
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+/* Mapa */
+#mapa-envios {
+    flex: 2;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    z-index: 1;
+    border: 2px solid #E1BC54;
+    background-color: #1E1E49;
+}
+
+
+/*Lista*/
+.panel-lista {
+    flex: 1;
+    background-color: #151538;
+    padding: 25px;
+    border-radius: 20px;
+    overflow-y: auto;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-lista h3 {
+    color: #E1BC54;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(225, 188, 84, 0.3);
+    padding-bottom: 10px;
+    font-size: 1.5em;
+    background-color: transparent;
+}
+
+#lista-lugares {
+    list-style: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+#lista-lugares li {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #f0f0f0;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+}
+
+#lista-lugares span{
+    background-color: transparent;
+}
+
+#lista-lugares li:hover {
+    background-color: #E1BC54;
+    color: #1E1E49;
+    font-weight: bold;
+    border-radius: 10px;
+    transform: translateY(-2px);
+}
+
+#lista-lugares li:hover {
+    background-color: #E6B325;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+#lista-lugares li:hover .texto-precio,
+#lista-lugares li:hover span[style*="color:#E6B325"] {
+    color: #000000 !important;
+}
+
+/* LEAFLET */
+.leaflet-top {
+    background-color: transparent;
+
+}
+.leaflet-bar span{
+    background-color: transparent;
+}
+
+.leaflet-pane img{
+    background-color: transparent;
+}
+
+.leaflet-control-attribution a{
+    background-color: transparent;
+}
+
+.leaflet-bottom {
+    background-color: transparent;
+}
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+/* Botones de zoom del mapa */
+.leaflet-bar a {
+    color: #E1BC54 !important;
+    border-bottom: 1px solid #E1BC54 !important;
+    background-color: transparent;
+}
+
+.leaflet-bar a:hover {
+    background-color: #E1BC54 !important;
+    border-bottom: 1px solid #1E1E49 !important;
+}
+
+.leaflet-touch .leaflet-bar {
+    border: 2px solid #E1BC54 !important;
+    box-shadow: none !important;
+    background-color: transparent;
+}
+
+/* Créditos del mapa */
+.leaflet-container .leaflet-control-attribution {
+    color: #ccc !important;
+    border-radius: 5px 0 0 0;
+}
+
+/*Párrafo abajo del mapa*/
+#envios-especiales{
+    text-align: right;
+    margin-right: 140px;
+    padding-left: 900px;
+    padding-top: 15px;
+    font-style: italic;
+}
+
+/* FORMAS DE PAGO */
+
+#formasPago {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* La tarjeta oscura principal */
+.tarjeta-pagos {
+    background-color: #131341;
+    padding: 50px 40px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    
+    box-shadow: -15px 15px 20px rgba(0, 0, 0, 0.5); 
+    text-align: center;
+}
+
+.tarjeta-pagos h2 {
+    margin-bottom: 35px;
+    background-color: transparent;
+}
+
+/* Contenedor de los botones */
+.pagos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #131341;
+}
+
+/* Estilo de cada botón */
+.pago-item {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    padding: 18px;
+    color: #f8f8f8;
+    font-size: 1.2em;
+    font-weight: 400;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.pago-item:hover {
+    border-color: #E1BC54;
+    color: #E1BC54;
+    background-color: #05053e;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    
+    .cobertura-layout {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    #mapa-envios {
+        height: 350px;
+        width: 100%;
+        margin-bottom: 20px;
+        order: 1; 
+    }
+
+    .panel-lista {
+        height: 300px;
+        order: 2;
+    }
+
+    #envios-especiales {        
+        padding-left: 0;
+        margin-right: 0;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1em;
+        width: 100%;
+    }
+    
+    .tarjeta-pagos {
+        padding: 30px 20px;
+        width: 100%;
+    }
+
+    .tarjeta-pagos h2 {
+        font-size: 1.5em;
+    }
+
+    .pago-item {
+        font-size: 1rem;
+        padding: 15px;
+    }
+}
