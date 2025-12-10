@@ -47,6 +47,8 @@ body, a, button, input, select, label {
     }   
 }
 
+/*
+
 .cajaInicio::after {
     content: "";
     position: absolute;
@@ -72,8 +74,10 @@ body, a, button, input, select, label {
         rgba(135, 206, 235, 0) 100% 
     );
 }
-
+*/
 /*Banner*/
+
+/*
 .cajaInicio {
     position: relative; 
     overflow: hidden;
@@ -89,6 +93,31 @@ body, a, button, input, select, label {
     height: 100%;
     object-fit: cover;
     object-position: center;
+}
+*/
+
+.cajaInicio {
+    position: relative;
+    height: 60vh; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.videoFondoEncabezado {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+    object-fit: cover; 
 }
 
 /*Texto superpuesto*/
