@@ -1,5 +1,5 @@
-import { supabase } from '../../config.js';
-import { abrirModal, cerrarModal } from '../../ui.js';
+import { supabase } from '../config.js';
+import { abrirModal, cerrarModal } from '../ui.js';
 
 
 
