@@ -87,14 +87,25 @@
             <div id="sec-dashboard" class="seccion-admin">
                 <h1 class="page-title">Análisis de Negocio</h1>
                 
+                <!---->
                 <div class="kpi-grid">
+                    
                     <div class="kpi-card">
-                        <div class="kpi-icon money"><i class="fa-solid fa-dollar-sign"></i></div>
+                        <div class="kpi-icon money" style="background-color: #4CAF50;"><i class="fa-solid fa-dollar-sign"></i></div>
                         <div class="kpi-info">
-                            <h3>Ventas Totales</h3>
-                            <p id="kpi-ingresos">$0.00</p>
+                            <h3>Ingresos Entregados</h3>
+                            <p id="kpi-entregado">$0.00</p>
                         </div>
                     </div>
+                    
+                    <div class="kpi-card">
+                        <div class="kpi-icon money" style="background-color: #E6A925;"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div class="kpi-info">
+                            <h3>Ventas Pendientes</h3>
+                            <p id="kpi-pendiente">$0.00</p>
+                        </div>
+                    </div>
+
                     <div class="kpi-card">
                         <div class="kpi-icon users"><i class="fa-solid fa-users"></i></div>
                         <div class="kpi-info">
@@ -489,7 +500,7 @@
         </div>
     </footer>
 
-    <script type="module" src="../js/admin/main.js"></script>
+    <script type="module" src="../admin/main.js"></script>
     
     <script>
         document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
