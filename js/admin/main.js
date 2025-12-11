@@ -1,4 +1,4 @@
-//import { supabase } from './admin/config.js';
+import { supabase } from './admin/config.js';
 import * as UI from './admin/ui.js';
 import * as Analytics from './admin/analytics.js';
 import * as Products from './admin/products.js';
