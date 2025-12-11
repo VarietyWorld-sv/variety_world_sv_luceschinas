@@ -7,6 +7,65 @@ import * as Zones from '../admin/zones.js';
 import * as Orders from '../admin/orders.js';
 import * as Combos from '../admin/combos.js';
 
+function aplicarRestriccionesSegunRol(rol) {
+    if (rol.toLowerCase() === 'ayudante') {
+        
+        const menuDashboard = document.querySelector('.admin-menu li:first-child'); 
+        if (menuDashboard) {
+            menuDashboard.style.display = 'none';
+        }
+        const secDashboard = document.getElementById('sec-dashboard');
+        if (secDashboard) {
+            secDashboard.style.display = 'none';
+        }
+
+        const menuUsuarios = document.querySelector('.admin-menu li:nth-child(4)'); 
+        if (menuUsuarios) {
+            menuUsuarios.style.display = 'none';
+        }
+        const secUsuarios = document.getElementById('sec-usuarios');
+        if (secUsuarios) {
+            secUsuarios.style.display = 'none';
+        }
+        
+        const liProductos = document.querySelector('.admin-menu li:nth-child(2)');
+        if (liProductos) {
+            UI.mostrarSeccion('productos', liProductos);
+            
+            setTimeout(() => {
+                if (document.querySelector('.admin-menu li.active a')?.innerText.includes('Productos')) {
+                    Products.cargarProductos();
+                }
+            }, 50);
+        }
+    }
+}
+
+async function verificarYEjecutarCambioRol(idUsuario, nuevoRol) {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        alert("Sesión no válida.");
+        return;
+    }
+
+    const { data: userData } = await supabase
+        .from('usuarios')
+        .select('tipo_usuario')
+        .eq('id_usuario', user.id)
+        .single();
+    
+    const rolActual = userData?.tipo_usuario.toLowerCase();
+
+    if (rolActual !== 'administrador' && rolActual !== 'admin') {
+        alert("Acceso denegado. Solo los administradores pueden cambiar roles.");
+        return;
+    }
+    
+    Users.cambiarRol(idUsuario, nuevoRol);
+}
+
+
 document.addEventListener('DOMContentLoaded', async () => {
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -22,16 +81,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         .eq('id_usuario', user.id)
         .single();
 
-    if (!userData || !['administrador', 'admin', 'ayudante'].includes(userData.tipo_usuario.toLowerCase())) {
+    const rol = userData?.tipo_usuario;
+
+    if (!rol || !['administrador', 'admin', 'ayudante'].includes(rol.toLowerCase())) {
         alert("Acceso denegado.");
         window.location.href = '../index.html';
         return;
     }
+    
+    aplicarRestriccionesSegunRol(rol); 
 
     const textoRol = document.getElementById('sidebar-rol-texto');
     const imgRol = document.getElementById('sidebar-foto-perfil');
-    const rol = userData.tipo_usuario; 
-
+    
     if (textoRol) textoRol.innerText = rol;
 
     if (imgRol) {
@@ -44,7 +106,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    Analytics.cargarAnaliticas();
+    if (rol.toLowerCase() !== 'ayudante') {
+        Analytics.cargarAnaliticas();
+    }
 
     const formProd = document.getElementById('formProducto');
     if (formProd) {
@@ -88,12 +152,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-// Funciones expuestas globalmente
 window.mostrarSeccion = (id, el) => {
     UI.mostrarSeccion(id, el);
 
     if (id === 'productos') Products.cargarProductos();
-    if (id === 'usuarios') Users.cargarUsuarios();
+    if (id === 'usuarios') {
+        if (document.getElementById('sidebar-rol-texto')?.innerText.toLowerCase() !== 'ayudante') {
+            Users.cargarUsuarios(); 
+        }
+    }
     if (id === 'zonas') Zones.cargarZonas();
     if (id === 'pedidos') Orders.cargarPedidos();
     if (id === 'dashboard') Analytics.cargarAnaliticas();
@@ -106,7 +173,7 @@ window.abrirModalProducto = Products.prepararCreacionProducto;
 window.prepararEdicionProducto = Products.prepararEdicionProducto;
 window.eliminarProducto = Products.eliminarProducto;
 
-window.cambiarRol = Users.cambiarRol;
+window.cambiarRol = verificarYEjecutarCambioRol;
 
 window.abrirModalZona = Zones.prepararCreacionZona;
 window.prepararEdicionZona = Zones.prepararEdicionZona;

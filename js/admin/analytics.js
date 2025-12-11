@@ -1,18 +1,15 @@
 import { supabase } from './config.js';
 
 export async function cargarAnaliticas() {
-    // Si no estamos en la pestaña dashboard, no se procederá con nada
-    // Usamos kpi-entregado para verificar si estamos en la sección correcta
+    
     if (!document.getElementById('kpi-entregado')) return;
 
     console.log("Cargando analíticas...");
 
-    // 1. Obtener datos de pedidos
     const { data: pedidos } = await supabase
         .from('pedidos')
         .select('total_factura, fecha_pedido, estado_pedido');
 
-    // 2. Obtener conteo de usuarios y productos
     const { count: usuarios } = await supabase
         .from('usuarios')
         .select('*', { count: 'exact', head: true })
@@ -22,7 +19,6 @@ export async function cargarAnaliticas() {
         .from('productos')
         .select('*', { count: 'exact', head: true });
 
-    // 3. Inicializar variables de análisis
     let ingresosEntregados = 0; 
     let ventasPendientes = 0;   
     let totalVentas = 0;        
@@ -36,41 +32,34 @@ export async function cargarAnaliticas() {
             const estado = p.estado_pedido || 'Pendiente';
             const estadoLower = estado.toLowerCase();
             
-            // Suma Total Global (excluyendo cancelados)
             if (estadoLower !== 'cancelado') {
                 totalVentas += total;
             }
 
-            // CLASIFICACIÓN Y SUMA CONDICIONAL
             if (estadoLower === 'entregado') {
                 ingresosEntregados += total;
             } else if (estadoLower === 'pendiente' || estadoLower === 'procesando' || estadoLower === 'enviado') {
                 ventasPendientes += total;
             }
 
-            // Agrupar por fecha (para el gráfico de línea)
             let fecha = p.fecha_pedido.split('T')[0];
             if (estadoLower !== 'cancelado') {
                 ventasPorFecha[fecha] = (ventasPorFecha[fecha] || 0) + total;
             }
 
-            // Contar estatus de pedidos (para el gráfico Donut)
             let estadoCapitalized = estado.charAt(0).toUpperCase() + estado.slice(1).toLowerCase();
 
-            // Asegurar que el estado exista en estadosCount (añadimos 'Procesando' si no estaba)
             if (estadosCount[estadoCapitalized] !== undefined) estadosCount[estadoCapitalized]++;
             else estadosCount[estadoCapitalized] = 1;
         });
     }
 
-    // 4. Mostrar los KPIs en el dashboard
     document.getElementById('kpi-entregado').innerText = `$${ingresosEntregados.toFixed(2)}`;
     document.getElementById('kpi-pendiente').innerText = `$${ventasPendientes.toFixed(2)}`;
     
     document.getElementById('kpi-usuarios').innerText = usuarios || 0;
     document.getElementById('kpi-productos').innerText = productos || 0;
 
-    // 5. Renderizar gráficas
     renderizarGraficoLinea(ventasPorFecha);
     renderizarGraficoDonut(estadosCount);
 }

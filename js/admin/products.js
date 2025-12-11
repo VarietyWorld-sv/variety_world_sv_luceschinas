@@ -3,6 +3,34 @@ import { abrirModal, cerrarModal } from './ui.js';
 
 let idProductoEdit = null;
 
+async function subirImagenASupabase(file) {
+    if (!file) return null;
+
+    const userResult = await supabase.auth.getUser();
+    const userId = userResult.data.user ? userResult.data.user.id : 'admin_files'; 
+    
+    const bucketName = 'inventario';
+    const fileName = file.name.replace(/\s/g, '_').replace(/[^\w._-]/g, '');
+    const filePath = `${userId}/${Date.now()}_${fileName}`;
+
+    const { error } = await supabase.storage
+        .from(bucketName)
+        .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false,
+        });
+
+    if (error) {
+        throw new Error("Error al subir la imagen a Storage: " + error.message);
+    }
+    
+    const { data: publicUrl } = supabase.storage
+        .from(bucketName)
+        .getPublicUrl(filePath);
+
+    return publicUrl.publicUrl;
+}
+
 function convertirUrlImagen(url) {
     if (!url || url.trim() === '') return 'https://via.placeholder.com/40';
     
@@ -84,7 +112,7 @@ function activarModoRapido(producto) {
     document.getElementById('prod-nombre').value = producto.nombre;
     document.getElementById('prod-precio').value = producto.precio_unitario;
     document.getElementById('prod-descuento').value = producto.porcentaje_descuento || 0;
-    document.getElementById('prod-imagen').value = producto.imagen_url || '';
+    document.getElementById('prod-imagen-url').value = producto.imagen_url || '';
     document.getElementById('prod-categoria').value = producto.categoria || '';
     document.getElementById('prod-desc').value = producto.descripcion || '';
     document.getElementById('prod-paquete').value = producto.unidades_por_paquete || 1;
@@ -148,7 +176,7 @@ async function cargarCategoriasEnDatalist() {
     if (!datalist) return;
     datalist.innerHTML = '';
     
-    const categoriasFijas = ["Para los reyes del hogar", "Recreativo", "Producto nacional", "Baterías"];
+    const categoriasFijas = ["Para los reyes del hogar", "Recreativos", "Producto nacional", "Baterías"];
     categoriasFijas.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat;
@@ -163,6 +191,9 @@ export function prepararCreacionProducto() {
     document.getElementById('tituloModalProducto').innerText = "Nuevo Producto";
     document.getElementById('prod-paquete').value = 1;
     document.getElementById('input-url-video').value = '';
+    
+    document.getElementById('prod-imagen-file').value = '';
+    document.getElementById('upload-progress-bar').style.display = 'none';
 
 
     cargarCategoriasEnDatalist();
@@ -179,11 +210,15 @@ export function prepararEdicionProducto(prod) {
     document.getElementById('prod-precio').value = prod.precio_unitario;
     document.getElementById('prod-stock').value = prod.stock;
     document.getElementById('prod-descuento').value = prod.porcentaje_descuento || 0;
-    document.getElementById('prod-imagen').value = prod.imagen_url || '';
+    document.getElementById('prod-imagen-url').value = prod.imagen_url || '';
     document.getElementById('prod-categoria').value = prod.categoria || '';
     document.getElementById('prod-desc').value = prod.descripcion || '';
     document.getElementById('prod-paquete').value = prod.unidades_por_paquete || 1;
     document.getElementById('input-url-video').value = prod.video_url || '';
+    
+    document.getElementById('prod-imagen-file').value = '';
+    document.getElementById('upload-progress-bar').style.display = 'none';
+
 
     cargarCategoriasEnDatalist();
     abrirModal('modalProductoAdmin');
@@ -193,43 +228,77 @@ export async function guardarProducto(e) {
     e.preventDefault();
     const btn = document.getElementById('btn-guardar-producto');
     const txtOriginal = btn.innerText;
+    const fileInput = document.getElementById('prod-imagen-file');
+    const urlInput = document.getElementById('prod-imagen-url');
+    const progressBar = document.getElementById('upload-progress-bar');
+    
     btn.innerText = "Guardando...";
     btn.disabled = true;
+    progressBar.value = 0;
 
-    // --- BLOQUE CLAVE ---
-    const datos = {
-        codigo_producto: document.getElementById('prod-codigo').value || null,
-        nombre: document.getElementById('prod-nombre').value,
-        precio_unitario: document.getElementById('prod-precio').value,
-        stock: document.getElementById('prod-stock').value,
-        porcentaje_descuento: document.getElementById('prod-descuento').value,
-        imagen_url: document.getElementById('prod-imagen').value,
-        categoria: document.getElementById('prod-categoria').value,
-        descripcion: document.getElementById('prod-desc').value,
-        unidades_por_paquete: document.getElementById('prod-paquete').value,
-        video_url: document.getElementById('input-url-video').value || null
-    };
+    let imagenUrlFinal = urlInput.value.trim();
+
+    try {
+        if (fileInput.files.length > 0) {
+            const archivo = fileInput.files[0];
+            
+            progressBar.style.display = 'block';
+            progressBar.value = 25; 
+
+            imagenUrlFinal = await subirImagenASupabase(archivo);
+            
+            if (!imagenUrlFinal) {
+                throw new Error("La URL de la imagen subida no pudo ser generada.");
+            }
+            progressBar.value = 100;
+        } 
+        
+        const datos = {
+            codigo_producto: document.getElementById('prod-codigo').value || null,
+            nombre: document.getElementById('prod-nombre').value,
+            precio_unitario: document.getElementById('prod-precio').value,
+            stock: document.getElementById('prod-stock').value,
+            porcentaje_descuento: document.getElementById('prod-descuento').value,
+            imagen_url: imagenUrlFinal || null,
+            categoria: document.getElementById('prod-categoria').value,
+            descripcion: document.getElementById('prod-desc').value,
+            unidades_por_paquete: document.getElementById('prod-paquete').value,
+            video_url: document.getElementById('input-url-video').value || null
+        };
 
 
-    let error;
-    if (idProductoEdit) {
-        ({ error } = await supabase.from('productos').update(datos).eq('id_producto', idProductoEdit));
-    } else {
-        ({ error } = await supabase.from('productos').insert([datos]));
+        let error;
+        if (idProductoEdit) {
+            ({ error } = await supabase.from('productos').update(datos).eq('id_producto', idProductoEdit));
+        } else {
+            ({ error } = await supabase.from('productos').insert([datos]));
+        }
+
+        if (error) {
+            throw error;
+        } else {
+            alert("Producto guardado correctamente.");
+            cerrarModal('modalProductoAdmin');
+            
+            sessionStorage.removeItem('catalogo_global');
+            
+            cargarProductos(); 
+        }
+
+    } catch (error) {
+        console.error('Error al guardar/subir:', error);
+        let mensaje = "Error desconocido.";
+        if (error.code === '23505') mensaje = 'El código de producto ya existe.';
+        else if (error.message.includes('Storage')) mensaje = `Error de Storage: ${error.message}`;
+        else if (error.message.includes('generada')) mensaje = error.message;
+
+        alert("Error: " + mensaje);
+    } finally {
+        btn.innerText = txtOriginal;
+        btn.disabled = false;
+        progressBar.style.display = 'none';
+        progressBar.value = 0;
     }
-
-    if (error) {
-        alert("Error: " + (error.code === '23505' ? 'El código ya existe.' : error.message));
-    } else {
-        alert("Producto guardado correctamente.");
-        cerrarModal('modalProductoAdmin');
-
-        sessionStorage.removeItem('catalogo_global');
-        cargarProductos();
-    }
-
-    btn.innerText = txtOriginal;
-    btn.disabled = false;
 }
 
 export async function eliminarProducto(id) {

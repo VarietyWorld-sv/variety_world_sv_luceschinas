@@ -8,20 +8,20 @@ export async function cargarPedidos() {
     const tbody = document.getElementById('tabla-pedidos-body');
     if (!tbody) return;
 
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>';
+    
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando...</td></tr>';
 
+    
     const { data: pedidos, error } = await supabase
         .from('pedidos')
-        .select(`
-            id_pedido, fecha_pedido, total_factura, estado_pedido, id_usuario,
-            facturacion_envio ( nombre_factura )
-        `)
+        
+        .select(`id_pedido, fecha_pedido, total_factura, estado_pedido, id_usuario, costo_envio, facturacion_envio(direccion_envio, zona_envio, nombre_factura)`) 
         .order('fecha_pedido', { ascending: false })
         .limit(30);
 
     if (error) {
-        console.error(error);
-        tbody.innerHTML = '<tr><td colspan="6">Error al cargar</td></tr>';
+        console.error("Error al cargar pedidos:", error);
+        tbody.innerHTML = '<tr><td colspan="7">Error al cargar. Ver consola.</td></tr>';
         return;
     }
 
@@ -30,15 +30,16 @@ export async function cargarPedidos() {
     for (const p of pedidos) {
         const fecha = new Date(p.fecha_pedido).toLocaleDateString();
         
-        let nombreMostrar = "N/A";
+        const datosEnvio = Array.isArray(p.facturacion_envio) && p.facturacion_envio.length > 0 
+                        ? p.facturacion_envio[0] 
+                        : (p.facturacion_envio || {}); 
         
-        if (p.facturacion_envio) {
-            if (Array.isArray(p.facturacion_envio) && p.facturacion_envio.length > 0) {
-                nombreMostrar = p.facturacion_envio[0].nombre_factura;
-            } else if (p.facturacion_envio.nombre_factura) {
-                nombreMostrar = p.facturacion_envio.nombre_factura;
-            }
-        }
+        let nombreMostrar = datosEnvio.nombre_factura || "N/A";
+        
+        const direccionCompleta = datosEnvio.direccion_envio || 'No especificada';
+        const zona = datosEnvio.zona_envio || 'N/A';
+        const costoEnvioTexto = parseFloat(p.costo_envio || 0).toFixed(2);
+
 
         if (nombreMostrar === "N/A" && p.id_usuario) {
             const { data: perfil } = await supabase
@@ -58,6 +59,12 @@ export async function cargarPedidos() {
                 <td><small style="color:#ccc;">${p.id_pedido.slice(0, 6)}...</small></td>
                 <td>${fecha}</td>
                 <td style="color:#fff; font-weight:bold;">${nombreMostrar}</td>
+                
+                <td>
+                    ${direccionCompleta} (${zona})
+                    <br><small style="color:#aaa;">Costo: $${costoEnvioTexto}</small>
+                </td>
+                
                 <td style="color:#E6B325;">$${parseFloat(p.total_factura).toFixed(2)}</td>
                 <td><span class="status-badge ${p.estado_pedido.toLowerCase()}">${p.estado_pedido}</span></td>
                 <td>
@@ -70,29 +77,41 @@ export async function cargarPedidos() {
     }
 }
 
+
 export async function gestionarPedido(id) {
     idPedidoActual = id;
-    costoEnvioActual = 0; 
     
     const selectEstado = document.getElementById('select-estado-pedido');
     const tituloCliente = document.getElementById('cliente-modal-titulo');
-    
-    if (tituloCliente) tituloCliente.innerText = "Cargando...";
+    const inputCostoEnvio = document.getElementById('input-costo-envio-modal');
 
+    if (tituloCliente) tituloCliente.innerText = "Cargando...";
+    
     const { data: pedido } = await supabase
         .from('pedidos')
-        .select(`estado_pedido, id_usuario, facturacion_envio(nombre_factura)`)
+        .select(`estado_pedido, id_usuario, costo_envio, total_factura, facturacion_envio(nombre_factura, direccion_envio, zona_envio)`) 
         .eq('id_pedido', id)
         .single();
+    
+    const direccionModalEl = document.getElementById('pedido-direccion-modal');
 
     if (pedido) {
+        costoEnvioActual = pedido.costo_envio || 0; 
+        if (inputCostoEnvio) inputCostoEnvio.value = costoEnvioActual.toFixed(2);
+
+        const datosEnvioModal = Array.isArray(pedido.facturacion_envio) ? pedido.facturacion_envio[0] : pedido.facturacion_envio;
+        
+        const direccion = datosEnvioModal?.direccion_envio || 'N/A';
+        const zona = datosEnvioModal?.zona_envio || 'N/A';
+        const ubicacionModal = `${direccion} (${zona})`;
+        
+        if (direccionModalEl) direccionModalEl.innerText = ubicacionModal; 
+
         if(selectEstado) selectEstado.value = pedido.estado_pedido;
         
         let nombreReal = "Cliente Desconocido";
-        const datosEnvio = Array.isArray(pedido.facturacion_envio) ? pedido.facturacion_envio[0] : pedido.facturacion_envio;
-        
-        if (datosEnvio?.nombre_factura) {
-            nombreReal = datosEnvio.nombre_factura;
+        if (datosEnvioModal?.nombre_factura) {
+            nombreReal = datosEnvioModal.nombre_factura;
         } else if (pedido.id_usuario) {
             const { data: perfil } = await supabase.from('perfiles_cliente').select('nombre, apellidos').eq('id_cliente', pedido.id_usuario).maybeSingle();
             if (perfil) nombreReal = `${perfil.nombre} ${perfil.apellidos}`;
@@ -100,11 +119,15 @@ export async function gestionarPedido(id) {
         if (tituloCliente) tituloCliente.innerText = nombreReal;
     }
 
-    await cargarDetallesPedido(id);
+    await cargarDetallesPedido(id); 
+
     try { await cargarListaProductosSelect(); } catch(e) {}
+    
+    calcularTotalVisual(); 
 
     abrirModal('modalAdminPedido');
 }
+
 
 async function cargarListaProductosSelect() {
     const select = document.getElementById('select-add-producto');
@@ -177,12 +200,30 @@ async function cargarDetallesPedido(idPedido) {
     calcularTotalVisual();
 }
 
+window.actualizarCostoEnvioYTotal = async (nuevoCosto) => {
+    const inputEnvio = document.getElementById('input-costo-envio-modal');
+    
+    nuevoCosto = parseFloat(nuevoCosto) || 0;
+    if (nuevoCosto < 0) nuevoCosto = 0;
+    
+    costoEnvioActual = nuevoCosto;
+    inputEnvio.value = nuevoCosto.toFixed(2);
+    
+    const nuevoTotalGlobal = calcularTotalVisual();
+    
+    if (idPedidoActual) {
+        await guardarTotalEnBD(idPedidoActual, nuevoTotalGlobal);
+        
+        cargarPedidos();
+    }
+};
+
 function calcularTotalVisual() {
-    const celdasSubtotal = document.querySelectorAll('.col-subtotal');
+    const celdasSubtotal = document.querySelectorAll('#tabla-detalles-pedido .col-subtotal');
     let sumaProductos = 0;
 
     celdasSubtotal.forEach(celda => {
-        const valor = parseFloat(celda.innerText.replace('$', '')) || 0;
+        const valor = parseFloat(celda.innerText.replace('$', '')) || 0; 
         sumaProductos += valor;
     });
 
@@ -197,7 +238,11 @@ function calcularTotalVisual() {
 
 async function guardarTotalEnBD(idPedido, totalCalculado) {
     const subtotal = totalCalculado - costoEnvioActual;
-    await supabase.from('pedidos').update({ subtotal: subtotal, total_factura: totalCalculado }).eq('id_pedido', idPedido);
+    await supabase.from('pedidos').update({ 
+        subtotal: subtotal, 
+        total_factura: totalCalculado, 
+        costo_envio: costoEnvioActual 
+    }).eq('id_pedido', idPedido);
 }
 
 window.actualizarCantidadDetalle = async (input, idDetalle, idProducto, cantidadAnterior) => {

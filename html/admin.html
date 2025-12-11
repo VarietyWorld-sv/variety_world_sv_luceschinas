@@ -227,7 +227,7 @@
                                 <th>ID</th>
                                 <th>Fecha</th>
                                 <th>Cliente</th>
-                                <th>Total</th>
+                                <th>Ubicación Envío</th> <th>Total</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -295,9 +295,16 @@
                     </div>
 
                     <div class="grupo-input-carrito">
-                        <label>URL Imagen:</label>
-                        <input type="text" id="prod-imagen">
+                        <label>Imagen (Subir o URL):</label>
+                        
+                        <input type="file" id="prod-imagen-file" accept="image/*" style="margin-bottom: 5px;">
+                        
+                        <label style="font-size: 0.9em; color: #ccc;">O pegar URL (opcional):</label>
+                        <input type="text" id="prod-imagen-url" placeholder="Pegar enlace aquí">
+
+                        <progress id="upload-progress-bar" value="0" max="100" style="width: 100%; margin-top: 10px; display:none;"></progress>
                     </div>
+
                     <div class="grupo-input-carrito">
                         <label for="input-url-video">URL Video:</label>
                         <input type="url" id="input-url-video" placeholder="Ej: https://youtube.com/watch?v=123xyz">
@@ -343,6 +350,7 @@
             <h2 id="titulo-modal-pedido">Gestionar pedido</h2>
             
             <h3 id="cliente-modal-titulo" style="text-align:center; color:#E6B325; margin-bottom:20px; font-weight:normal;">Cargando cliente...</h3>
+            <p id="pedido-direccion-modal" style="text-align:center; color:#ccc; margin-bottom:15px; font-style: italic;"></p>
             
             <div class="modal-body-admin" id="modal-pedido">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; background-color: #151538; padding: 15px; border-radius: 10px;">
@@ -360,36 +368,31 @@
                 <hr style="border: 1px solid #5D4037; margin: 20px 0; background-color: transparent;">
 
                 <h3 style="color:#E6B325; margin-bottom: 10px; background-color: transparent;">Editar productos</h3>
-                <div style="display:flex; gap:10px; margin-bottom:15px; align-items: center;">
-                    <select id="select-add-producto" class="admin-select" style="flex:2;">
-                        <option value="">Cargando productos...</option>
-                    </select>
-                    <input type="number" id="input-add-cantidad" class="input-tabla" placeholder="Cant." min="1" value="1" style="width:80px;">
-                    <button id="btn-add-producto" class="btn-checkout" style="margin:0; width:auto; padding: 10px 20px;">
-                        <i class="fa-solid fa-plus"></i> Agregar
-                    </button>
-                </div>
-
                 <div class="table-responsive">
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Precio Unit.</th>
-                                <th>Cant.</th>
-                                <th>Subtotal</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
                         <tbody id="tabla-detalles-pedido"></tbody>
+                        
                         <tfoot>
+                            <tr>
+                                <td colspan="3" style="text-align:right; font-weight:normal; color: #ccc;">COSTO ENVÍO:</td>
+                                <td style="color:#fff; font-weight:bold;">
+                                    <input type="number" 
+                                        id="input-costo-envio-modal" 
+                                        step="0.01" 
+                                        value="0.00" 
+                                        style="width: 80px; text-align:right; background: #151538; color: #fff; border: 1px solid #5D4037;"
+                                        onchange="window.actualizarCostoEnvioYTotal(this.value)">
+                                </td>
+                                <td></td>
+                            </tr>
+                            
                             <tr>
                                 <td colspan="3" style="text-align:right; font-weight:bold; color: #fff;">TOTAL FACTURA:</td>
                                 <td id="total-pedido-modal" style="color:#E6B325; font-weight:bold; font-size: 1.2em;">$0.00</td>
                                 <td></td>
                             </tr>
                         </tfoot>
-                    </table>
+                        </table>
                 </div>
             </div>
         </div>
@@ -460,9 +463,15 @@
                     <textarea id="combo-desc" placeholder="Ej: Incluye 1 Batería y 2 Volcanes..."></textarea>
                 </div>
                 <div class="grupo-input-carrito">
-                    <label>URL Imagen:</label>
-                    <input type="text" id="combo-imagen">
-                </div>
+                        <label>Imagen (Subir o URL):</label>
+                        
+                        <input type="file" id="prod-imagen-file" accept="image/*" style="margin-bottom: 5px;">
+                        
+                        <label style="font-size: 0.9em; color: #ccc;">O pegar URL (opcional):</label>
+                        <input type="text" id="prod-imagen-url" placeholder="Pegar enlace aquí">
+
+                        <progress id="upload-progress-bar" value="0" max="100" style="width: 100%; margin-top: 10px; display:none;"></progress>
+                    </div>
                 
                 <div class="grupo-input-carrito">
                     <label>¿Activo?</label>

@@ -153,3 +153,15 @@ export async function cambiarRol(idUsuario) {
         cargarUsuarios();
     }
 }
+
+// Esta función es llamada por main.js para aplicar la restricción de Ayudante
+export function deshabilitarControlesEdicionRol() {
+    const selectsRol = document.querySelectorAll('#sec-usuarios select[id^="select-rol-"]');
+    const botonesRol = document.querySelectorAll('#sec-usuarios button[onclick*="cambiarRol"]');
+
+    [...selectsRol, ...botonesRol].forEach(el => {
+        el.disabled = true;
+        el.title = "Permiso de Administrador requerido.";
+        el.style.opacity = 0.5;
+    });
+}
