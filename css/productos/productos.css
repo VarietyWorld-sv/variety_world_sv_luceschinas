@@ -494,26 +494,13 @@ input[type=number] {
 }
 
 /*Responsive*/
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@media (max-width: 768px) {
-    .main-content-wrapper { flex-direction: column; }
-    .categorias { width: 100%; }
-    .modal-content { flex-direction: column; overflow-y: auto; max-height: 90vh; }
-    .modal-body { flex-direction: column; }
-    .modal-media { border-right: none; border-bottom: 3px solid #5D4037; min-height: 250px; max-height: 300px; }
-    .media-container img, .media-container video { max-height: 280px; }
-}
-
 @media (max-width: 768px) {
     .main-content-wrapper {
         flex-direction: column;
         padding: 0;
         overflow: visible;
     }
+    
     .categorias {
         width: 100%;
         display: flex;
@@ -523,9 +510,7 @@ input[type=number] {
         
         position: sticky;
         position: -webkit-sticky;
-
         top: 190px; 
-        
         z-index: 900;
         
         background-color: #0A0A23;
@@ -544,6 +529,7 @@ input[type=number] {
     .category {
         border-bottom: none; 
         margin-right: 5px;
+        flex-shrink: 0;
     }
 
     .category a {
@@ -557,6 +543,41 @@ input[type=number] {
 
     .category h3{
         background-color: transparent;
+    }
+
+    .filtro-container {
+        border-top: none;
+        margin-top: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        margin-left: 10px;
+        border-left: 1px solid #555;
+        padding-left: 10px;
+    }
+
+    .filtro-container label {
+        display: none; 
+    }
+
+    #sortPrecio {
+        width: auto;
+        padding: 6px 15px;
+        height: auto;
+        font-size: 0.85rem;
+        border-radius: 20px;
+        background-color: #1E1E49; 
+        border: 1px solid #E6B325;
+        color: #E6B325;
+        cursor: pointer;
+        outline: none;
+    }
+
+    #sortPrecio option {
+        background-color: #0A0A23;
+        color: #fff;
+        padding: 10px;
     }
 
     /* GRID DE PRODUCTOS */
@@ -622,39 +643,29 @@ input[type=number] {
         border-radius: 8px;
         width: 100%;
     }
-
-    .filtro-container {
-        border-top: none;
-        margin-top: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        margin-left: 10px;
-        border-left: 1px solid #555;
-        padding-left: 10px;
+    
+    /* MODAL */
+    .modal-content { 
+        flex-direction: column; 
+        overflow-y: auto; 
+        max-height: 90vh; 
+        width: 95%;
+        max-width: 95%;
     }
-
-    .filtro-container label {
-        display: none; 
+    .modal-body { 
+        flex-direction: column; 
     }
-
-    #sortPrecio {
-        width: auto;
-        padding: 6px 15px;
-        height: auto;
-        font-size: 0.85rem;
-        border-radius: 20px;
-        background-color: #1E1E49; 
-        border: 1px solid #E6B325;
-        color: #E6B325;
-        cursor: pointer;
-        outline: none;
+    .modal-media { 
+        border-right: none; 
+        border-bottom: 3px solid #5D4037; 
+        min-height: 250px; 
+        max-height: 300px; 
+        min-width: 100%;
     }
-
-    #sortPrecio option {
-        background-color: #0A0A23;
-        color: #fff;
-        padding: 10px;
+    .media-container img, .media-container video { 
+        max-height: 280px; 
+    }
+    .modal-info {
+        padding: 20px;
     }
 }
