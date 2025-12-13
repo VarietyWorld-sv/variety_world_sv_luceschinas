@@ -21,8 +21,11 @@ if (registroForm) {
         const apellidos = document.getElementById('apellidos').value;
         const telefono = estandarizarTelefono(document.getElementById('telefono').value);
         const password = document.getElementById('reg-password').value;
-
+        
+        const correoIngresado = document.getElementById('reg-email').value.trim();
         const correoFalso = `tel_${telefono.replace('+', '')}@varietyworld.com`;
+        const correoParaAuth = correoIngresado || correoFalso;
+        const correoParaTabla = correoIngresado || null; 
 
         try {
             const { data: existente } = await supabase
@@ -35,13 +38,19 @@ if (registroForm) {
                 alert('Hubo un error al registrarse: Este número de teléfono ya está asociado a una cuenta.');
                 return;
             }
-
+            
             const { data: authData, error: authError } = await supabase.auth.signUp({
-                email: correoFalso, 
+                email: correoParaAuth,
                 password: password
             });
 
-            if (authError) throw authError;
+            if (authError) {
+                if (authError.message.includes('User already registered')) {
+                    alert('Hubo un error al registrarse: Este correo electrónico ya está asociado a una cuenta. Por favor, usa otro o inicia sesión.');
+                    return;
+                }
+                throw authError;
+            }
 
             const userId = authData.user.id;
 
@@ -49,7 +58,7 @@ if (registroForm) {
                 .from('usuarios')
                 .insert([{
                     id_usuario: userId,
-                    correo_electronico: null, 
+                    correo_electronico: correoParaTabla,
                     tipo_usuario: 'Cliente',
                     telefono_contacto: telefono
                 }]);
@@ -68,13 +77,18 @@ if (registroForm) {
 
             if (perfilError) throw perfilError;
 
-            alert('¡Registro exitoso! Ya puedes iniciar sesión usando tu teléfono y contraseña.');
+            let mensajeExito = '¡Registro exitoso! Ya puedes iniciar sesión usando tu teléfono y contraseña.';
+            if (correoIngresado) {
+                mensajeExito = '¡Registro exitoso! Ya puedes iniciar sesión.';
+            }
+
+            alert(mensajeExito);
             window.location.href = 'login.html';
 
         } catch (error) {
             console.error('Error:', error);
             if (error.message && error.message.includes('User already registered')) {
-                alert('Hubo un error al registrarse: Este número de teléfono ya está asociado a una cuenta.');
+                alert('Hubo un error al registrarse: Este correo electrónico o número de teléfono ya están asociados a una cuenta.');
             } else {
                 alert('Hubo un error al registrarse: ' + error.message);
             }
