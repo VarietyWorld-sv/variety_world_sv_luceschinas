@@ -250,19 +250,17 @@ window.actualizarCantidadDetalle = async (input, idDetalle, idProducto, cantidad
     if (isNaN(nuevaCantidad) || nuevaCantidad < 1) { alert("Mínimo 1"); input.value = cantidadAnterior; return; }
     if (nuevaCantidad == cantidadAnterior) return;
 
-    // 1. Actualización Visual Inmediata
     const fila = document.getElementById(`fila-${idDetalle}`);
     const precio = parseFloat(fila.querySelector('.col-precio').dataset.precio);
     const nuevoSubtotal = precio * nuevaCantidad;
     
     document.getElementById(`subtotal-${idDetalle}`).innerText = `$${nuevoSubtotal.toFixed(2)}`;
-    const nuevoTotalGlobal = calcularTotalVisual(); // Actualiza el total amarillo al instante
+    const nuevoTotalGlobal = calcularTotalVisual();
 
     try {
         input.disabled = true; 
         const diferencia = cantidadAnterior - nuevaCantidad;
 
-        // Actualizar BD
         await supabase.from('detalles_pedido').update({ cantidad: nuevaCantidad }).eq('id_detalle', idDetalle);
 
         // Ajustar Stock

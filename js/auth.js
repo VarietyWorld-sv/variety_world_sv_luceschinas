@@ -8,7 +8,6 @@ function estandarizarTelefono(telefono) {
     if (telLimpio.length === 8) {
         return `+503${telLimpio}`;
     }
-    // Asegura que siempre tenga el '+' si no lo tiene, para evitar errores de formato en la BD
     return telefono.startsWith('+') ? telefono : `+${telLimpio}`;
 }
 
@@ -26,7 +25,6 @@ if (registroForm) {
         const correoFalso = `tel_${telefono.replace('+', '')}@varietyworld.com`;
 
         try {
-            // 1. VALIDACIÓN DE EXISTENCIA DEL TELÉFONO EN LA BASE DE DATOS
             const { data: existente } = await supabase
                 .from('usuarios')
                 .select('id_usuario')
@@ -35,10 +33,9 @@ if (registroForm) {
             
             if (existente) {
                 alert('Hubo un error al registrarse: Este número de teléfono ya está asociado a una cuenta.');
-                return; // Detiene el registro si ya existe en la tabla usuarios
+                return;
             }
 
-            // 2. REGISTRO EN SUPABASE AUTH
             const { data: authData, error: authError } = await supabase.auth.signUp({
                 email: correoFalso, 
                 password: password
@@ -48,12 +45,10 @@ if (registroForm) {
 
             const userId = authData.user.id;
 
-            // 3. INSERCIÓN EN TABLA USUARIOS
             const { error: tablaUsuarioError } = await supabase
                 .from('usuarios')
                 .insert([{
                     id_usuario: userId,
-                    // Dejamos correo_electronico como NULL ya que es teléfono-only
                     correo_electronico: null, 
                     tipo_usuario: 'Cliente',
                     telefono_contacto: telefono
@@ -61,7 +56,6 @@ if (registroForm) {
 
             if (tablaUsuarioError) throw tablaUsuarioError;
 
-            // 4. INSERCIÓN EN PERFILES
             const { error: perfilError } = await supabase
                 .from('perfiles_cliente')
                 .insert([{
@@ -79,11 +73,10 @@ if (registroForm) {
 
         } catch (error) {
             console.error('Error:', error);
-            // Mostrar error específico si es por credenciales ya usadas (por si falla la validación previa)
             if (error.message && error.message.includes('User already registered')) {
-                 alert('Hubo un error al registrarse: Este número de teléfono ya está asociado a una cuenta.');
+                alert('Hubo un error al registrarse: Este número de teléfono ya está asociado a una cuenta.');
             } else {
-                 alert('Hubo un error al registrarse: ' + error.message);
+                alert('Hubo un error al registrarse: ' + error.message);
             }
         }
     });
@@ -101,19 +94,16 @@ if (loginForm) {
         let authParams = {};
 
         if (inputValor.includes('@')) {
-            // LOGIN CON CORREO
             authParams.email = inputValor;
         } else {
-            // LOGIN CON TELÉFONO
             const telefonoEstandarizado = estandarizarTelefono(inputValor);
             const telLimpio = telefonoEstandarizado.replace(/[^\d]/g, '');
 
             if (telLimpio.length < 6) {
-                 alert('Error: El teléfono debe tener al menos 6 dígitos.');
-                 return;
+                alert('Error: El teléfono debe tener al menos 6 dígitos.');
+                return;
             }
 
-            // CLAVE: Buscar por ambos formatos posibles (+503... O 60376012)
             const { data: usuario, error: userError } = await supabase
                 .from('usuarios')
                 .select('id_usuario, correo_electronico, telefono_contacto')
@@ -125,15 +115,12 @@ if (loginForm) {
                 return;
             }
             
-            // Reconstruir Correo Falso para el login nativo
             const telParaCorreo = usuario.telefono_contacto.replace('+', '');
             const correoFalsoReconstruido = `tel_${telParaCorreo}@varietyworld.com`;
             
-            // Usar el correo de la BD (si existe) o el reconstruido si es NULL
             authParams.email = usuario.correo_electronico || correoFalsoReconstruido;
         }
         
-        // Ejecutar login nativo
         const { data, error } = await supabase.auth.signInWithPassword({
             email: authParams.email,
             password: password
@@ -144,7 +131,6 @@ if (loginForm) {
         } else {
             const userId = data.user.id;
             try {
-                // Lógica de verificación de rol y redirección (sin cambios)
                 const { data: usuarioData } = await supabase
                     .from('usuarios')
                     .select('tipo_usuario')
