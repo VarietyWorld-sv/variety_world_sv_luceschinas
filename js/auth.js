@@ -19,11 +19,14 @@ if (registroForm) {
         
         const nombre = document.getElementById('nombre').value;
         const apellidos = document.getElementById('apellidos').value;
-        const telefono = estandarizarTelefono(document.getElementById('telefono').value);
+        const telefonoInput = document.getElementById('telefono').value;
+        const telefono = estandarizarTelefono(telefonoInput);
+        const telefonoLimpio = telefonoInput.replace(/[^\d]/g, '');
         const password = document.getElementById('reg-password').value;
         
         const correoIngresado = document.getElementById('reg-email').value.trim();
         const correoFalso = `tel_${telefono.replace('+', '')}@varietyworld.com`;
+        
         const correoParaAuth = correoIngresado || correoFalso;
         const correoParaTabla = correoIngresado || null; 
 
@@ -31,7 +34,7 @@ if (registroForm) {
             const { data: existente } = await supabase
                 .from('usuarios')
                 .select('id_usuario')
-                .eq('telefono_contacto', telefono)
+                .or(`telefono_contacto.eq.${telefono},telefono_limpio.eq.${telefonoLimpio}`)
                 .maybeSingle();
             
             if (existente) {
@@ -46,8 +49,8 @@ if (registroForm) {
 
             if (authError) {
                 if (authError.message.includes('User already registered')) {
-                    alert('Hubo un error al registrarse: Este correo electrónico ya está asociado a una cuenta. Por favor, usa otro o inicia sesión.');
-                    return;
+                     alert('Hubo un error al registrarse: Este correo electrónico ya está asociado a una cuenta. Por favor, usa otro o inicia sesión.');
+                     return;
                 }
                 throw authError;
             }
@@ -60,7 +63,8 @@ if (registroForm) {
                     id_usuario: userId,
                     correo_electronico: correoParaTabla,
                     tipo_usuario: 'Cliente',
-                    telefono_contacto: telefono
+                    telefono_contacto: telefono,
+                    telefono_limpio: telefonoLimpio
                 }]);
 
             if (tablaUsuarioError) throw tablaUsuarioError;
@@ -79,7 +83,7 @@ if (registroForm) {
 
             let mensajeExito = '¡Registro exitoso! Ya puedes iniciar sesión usando tu teléfono y contraseña.';
             if (correoIngresado) {
-                mensajeExito = '¡Registro exitoso! Ya puedes iniciar sesión.';
+                mensajeExito = '¡Registro exitoso! Por favor, revisa tu correo electrónico para confirmar tu cuenta y luego inicia sesión.';
             }
 
             alert(mensajeExito);
@@ -110,18 +114,19 @@ if (loginForm) {
         if (inputValor.includes('@')) {
             authParams.email = inputValor;
         } else {
-            const telefonoEstandarizado = estandarizarTelefono(inputValor);
-            const telLimpio = telefonoEstandarizado.replace(/[^\d]/g, '');
+            
+            const telIngresadoLimpio = inputValor.replace(/[^\d]/g, ''); 
 
-            if (telLimpio.length < 6) {
+            if (telIngresadoLimpio.length < 6) {
                 alert('Error: El teléfono debe tener al menos 6 dígitos.');
                 return;
             }
-
+            
+            // Búsqueda CLAVE: Buscamos la coincidencia exacta en la columna limpia.
             const { data: usuario, error: userError } = await supabase
                 .from('usuarios')
                 .select('id_usuario, correo_electronico, telefono_contacto')
-                .or(`telefono_contacto.eq.${telefonoEstandarizado},telefono_contacto.eq.${telLimpio}`)
+                .eq('telefono_limpio', telIngresadoLimpio) 
                 .maybeSingle();
 
             if (userError || !usuario) {
@@ -129,10 +134,11 @@ if (loginForm) {
                 return;
             }
             
-            const telParaCorreo = usuario.telefono_contacto.replace('+', '');
-            const correoFalsoReconstruido = `tel_${telParaCorreo}@varietyworld.com`;
+            const correoEnBD = usuario.correo_electronico;
+            const telGuardadoLimpio = usuario.telefono_contacto.replace('+', '');
+            const correoFalsoReconstruido = `tel_${telGuardadoLimpio}@varietyworld.com`;
             
-            authParams.email = usuario.correo_electronico || correoFalsoReconstruido;
+            authParams.email = correoEnBD || correoFalsoReconstruido;
         }
         
         const { data, error } = await supabase.auth.signInWithPassword({
