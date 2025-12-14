@@ -77,13 +77,33 @@ function actualizarTotalesPantalla() {
     const totalEl = document.getElementById('total-monto');
 
     const selectZona = document.getElementById('select-zona');
-    costoEnvio = selectZona && selectZona.value ? parseFloat(selectZona.value) : 0;
+
+    if (selectZona && selectZona.value === "whatsapp") {
+        costoEnvio = 0;
+    } else {
+        costoEnvio = selectZona && selectZona.value ? parseFloat(selectZona.value) : 0;
+    }
+
+    //costoEnvio = selectZona && selectZona.value ? parseFloat(selectZona.value) : 0;
 
     const totalFinal = totalProductos + costoEnvio;
 
     if (subtotalEl) subtotalEl.innerText = `$${totalProductos.toFixed(2)}`;
     if (envioEl) envioEl.innerText = `$${costoEnvio.toFixed(2)}`;
     if (totalEl) totalEl.innerText = `$${totalFinal.toFixed(2)}`;
+
+    const btnFinalizar = document.getElementById('btn-finalizar');
+    if (btnFinalizar) {
+        if (selectZona && selectZona.value === "whatsapp") {
+            btnFinalizar.disabled = true;
+            btnFinalizar.innerText = "¡Usa el botón de WhatsApp!";
+            btnFinalizar.style.backgroundColor = 'gray';
+        } else {
+            btnFinalizar.disabled = false;
+            btnFinalizar.innerText = "Confirmar pedido";
+            btnFinalizar.style.backgroundColor = '';
+        }
+    }
 }
 
 async function cargarZonasEnvio() {
@@ -124,7 +144,18 @@ async function cargarZonasEnvio() {
         }
     }
     
-    selectZona.addEventListener('change', actualizarTotalesPantalla);
+    //selectZona.addEventListener('change', actualizarTotalesPantalla);
+    selectZona.addEventListener('change', (e) => {
+        const valorSeleccionado = e.target.value;
+        
+        if (valorSeleccionado === "whatsapp") {
+            if (divDireccion) divDireccion.style.display = 'none';
+        } else {
+            if (divDireccion) divDireccion.style.display = 'block';
+        }
+        actualizarTotalesPantalla();
+    });
+
 }
 
 function renderizarOpcionesZonas(lista, select) {
@@ -135,7 +166,31 @@ function renderizarOpcionesZonas(lista, select) {
         option.dataset.nombre = zona.nombre_zona;
         select.appendChild(option);
     });
+
+    // Opción de Whatsapp para direcciones fuera de lista
+    const whatsappOption = document.createElement('option');
+    whatsappOption.value = "whatsapp";
+    whatsappOption.text = "Mi dirección no se encuentra en la lista";
+    whatsappOption.dataset.nombre = "Consulta por WhatsApp";
+    select.appendChild(whatsappOption);
 }
+
+function manejarZonaWhatsapp(select) {
+    costoEnvio = 0;
+    actualizarTotalesPantalla();
+
+    const btnFinalizar = document.getElementById('btn-finalizar');
+    
+    if (btnFinalizar) {
+        btnFinalizar.disabled = true;
+        btnFinalizar.innerText = "¡Contáctanos por WhatsApp!";
+        btnFinalizar.style.backgroundColor = 'gray';
+        btnFinalizar.style.cursor = 'default';
+    }
+
+    alert("Tu dirección no está en la lista. Por favor, utiliza el botón de 'Consultar por WhatsApp' para coordinar tu envío.");
+}
+
 
 window.actualizarCantidad = (index, cambio) => {
     let carrito = JSON.parse(localStorage.getItem('carrito_compras')) || [];
@@ -167,10 +222,41 @@ function configurarBotonesCheckout(carrito) {
         btnWhatsapp.parentNode.replaceChild(nuevoWp, btnWhatsapp);
 
         nuevoWp.addEventListener('click', () => {
-            const totalFinal = totalProductos + costoEnvio;
-            let mensaje = "Hola Variety World SV, consulta sobre pedido:\n";
+            const selectZona = document.getElementById('select-zona');
+            const inputDireccion = document.getElementById('input-direccion');
+            
+            let zonaEnvio = "Aún no seleccionada";
+            let direccionDetalle = "No especificada";
+            let totalFinal = totalProductos + costoEnvio;
+
+            if (selectZona && selectZona.value) {
+                const opcionZona = selectZona.options[selectZona.selectedIndex];
+                zonaEnvio = opcionZona.dataset.nombre || opcionZona.text;
+                
+                if (selectZona.value === "whatsapp") {
+                    zonaEnvio = "Mi dirección no está en la lista";
+                    totalFinal = totalProductos;
+                }
+            }
+
+            if (inputDireccion && inputDireccion.value.trim().length > 0) {
+                direccionDetalle = inputDireccion.value.trim();
+            }
+
+            let mensaje = "Hola, Variety World SV, quiero hacer un pedido\n\n*Productos:*\n";
             carrito.forEach(p => mensaje += `- ${p.cantidad}x ${p.nombre}\n`);
-            mensaje += `\nTotal estimado: $${totalFinal.toFixed(2)}`;
+            mensaje += `\n*Subtotal:* $${totalProductos.toFixed(2)}`;
+            mensaje += `\n*Zona de Envío:* ${zonaEnvio}`;
+            
+            if (selectZona && selectZona.value !== "whatsapp" && direccionDetalle !== "No especificada") {
+                mensaje += `\n*Dirección:* ${direccionDetalle}`;
+            } else if (selectZona && selectZona.value === "whatsapp") {
+                mensaje += `\n_Necesito cotizar el envío. Mi dirección es: ${direccionDetalle}_`;
+            } else {
+                mensaje += `\n*Dirección:* (Por favor, especificar en la respuesta)`;
+            }
+
+            mensaje += `\n*Total estimado:* $${totalFinal.toFixed(2)}`;
             window.open(`https://wa.me/50377622211?text=${encodeURIComponent(mensaje)}`, '_blank');
         });
     }
@@ -190,6 +276,11 @@ function configurarBotonesCheckout(carrito) {
                 alert("⚠️ Por favor selecciona una Zona de Envío antes de continuar.");
                 if(selectZona) selectZona.focus(); 
                 return; 
+            }
+            
+            if (selectZona.value === "whatsapp") {
+                alert("Has seleccionado 'Mi dirección no se encuentra en la lista'. Por favor, usa el botón de 'Consultar por WhatsApp' para coordinar tu envío.");
+                return;
             }
 
             if (!selectPago || selectPago.value === "") {
@@ -332,6 +423,7 @@ async function procesarPedidoBD(userId, nombreCliente) {
         
         const btnMain = document.getElementById('btn-finalizar');
         const btnGuest = document.querySelector('#formGuest button');
+        
         if (btnMain) { btnMain.innerText = "Confirmar pedido"; btnMain.disabled = false; }
         if (btnGuest) { btnGuest.innerText = "Confirmar pedido"; btnGuest.disabled = false; }
     }

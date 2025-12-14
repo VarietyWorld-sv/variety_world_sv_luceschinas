@@ -217,9 +217,9 @@ function iniciarSistemaProductos() {
         return `
             <div class="cajaProducto">
                 <div class="imagenProducto">
-                    <img src="${imagenValida}" onerror="this.src='https://via.placeholder.com/300x220?text=Sin+Foto'">
+                    <img src="${imagenValida}" onerror="this.src='https://via.placeholder.com/300x220?text=Sin+Foto'" onclick="abrirModal('${p.id_producto}')">
                 </div>
-                <div class="info-tarjeta">
+                <div class="info-tarjeta" onclick="abrirModal('${p.id_producto}')">
                     ${codigoHtml}
                     <h3 class="nombreProducto">${p.nombre}</h3>
                     <p class="precioProducto">$${parseFloat(p.precio_unitario).toFixed(2)}</p>

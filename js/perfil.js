@@ -349,7 +349,7 @@ async function cargarHistorialPedidosBD(supabase, userId) {
         if (error) throw error;
 
         if (!pedidos || pedidos.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding: 30px; background-color: transparent;"><p>Aún no tienes pedidos.</p><a href="productos.html" style="color:#E6B325; background-color: transparent;">Ir a comprar</a></div>`;
+            container.innerHTML = `<div style="text-align:center; padding: 30px; background-color: transparent;"><p>Aún no tienes pedidos</p><a href="carrito.html" style="color:#E6B325; background-color: transparent;">Completar pedido</a></div>`;
             if (totalTxt) totalTxt.textContent = "$0.00";
             return;
         }
