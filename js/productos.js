@@ -310,12 +310,54 @@ function iniciarSistemaProductos() {
         }
     };
 
+    let modalConfirmacionElement;
+    window.cerrarModalCarrito = () => {
+        if (modalConfirmacionElement) {
+            modalConfirmacionElement.remove();
+            modalConfirmacionElement = null;
+        }
+        cerrarModal();
+    };
+
+    window.mostrarModalConfirmacion = (mensaje) => {
+        if (modalConfirmacionElement) {
+            modalConfirmacionElement.remove();
+        }
+        
+        modalConfirmacionElement = document.createElement('div');
+        modalConfirmacionElement.id = 'modalConfirmacionCarrito';
+        modalConfirmacionElement.classList.add('modal-overlay'); 
+
+        modalConfirmacionElement.innerHTML = `
+            <div class="modal-contenido">
+                <span class="cerrar-modal" onclick="cerrarModalCarrito()">&times;</span>
+                <div id="mensajeConfirmacion">
+                    <h3 style="color:#5cb85c; margin-bottom: 15px;"><i class="fa-solid fa-check-circle"></i> ¡Producto Agregado!</h3>
+                    <p>${mensaje}</p>
+                </div>
+                <div class="acciones-carrito">
+                    <a href="carrito.html" class="btn-ir-carrito">
+                        <i class="fa-solid fa-shopping-cart" style="background-color:transparent; padding-right: 20px;";></i> Ir al carrito
+                    </a>
+                    <button class="btn-seguir-comprando" onclick="cerrarModalCarrito()">
+                        <i class="fa-solid fa-arrow-left" style="background-color:transparent; padding-right: 10px;";></i> Seguir comprando
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modalConfirmacionElement);
+        modalConfirmacionElement.style.display = 'flex';
+    };
+
+
     window.agregarAlCarrito = () => {
         if (!productoSeleccionado) return;
         const cant = parseInt(document.getElementById('inputCantidad').value);
         const max = productoSeleccionado.stockVisual ?? productoSeleccionado.stock;
 
-        if (cant > max) return alert("Stock insuficiente.");
+        if (cant > max) {
+            return alert("Stock insuficiente."); 
+        }
 
         let carrito = JSON.parse(localStorage.getItem('carrito_compras')) || [];
         const existente = carrito.find(i => i.id === productoSeleccionado.id_producto);
@@ -335,8 +377,9 @@ function iniciarSistemaProductos() {
 
         localStorage.setItem('carrito_compras', JSON.stringify(carrito));
         productoSeleccionado.stockVisual -= cant;
-        alert(`Has agregado ${cant} unidad(es) de este producto al carrito`);
-        cerrarModal();
+        
+        const mensaje = `Has agregado ${cant} unidad(es) de <br> ${productoSeleccionado.nombre} al carrito`;
+        mostrarModalConfirmacion(mensaje);
     };
 
     window.ordenarProductos = (orden) => {

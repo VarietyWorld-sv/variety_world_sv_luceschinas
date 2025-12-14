@@ -66,6 +66,14 @@ function cargarCarrito() {
         `;
         contenedorItems.appendChild(itemDiv);
     });
+    
+    const botonContinuar = document.createElement('a');
+    botonContinuar.href = "productos.html";
+    botonContinuar.classList.add('continuar-compra');
+    botonContinuar.innerHTML = `
+        <i class="fa-solid fa-angle-left" style="background-color: transparent; padding-right: 22px;"></i>Continuar viendo más productos
+    `;
+    contenedorItems.appendChild(botonContinuar);
 
     actualizarTotalesPantalla();
     configurarBotonesCheckout(carrito);

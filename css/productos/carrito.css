@@ -35,12 +35,14 @@ span{
     grid-template-columns: 2fr 1fr;
     gap: 30px;
     align-items: start;
+    background-color: transparent;
 }
 
 .lista-productos {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    background-color: transparent;
 }
 
 .item-carrito {
@@ -290,6 +292,32 @@ span{
 
 .btn-whatsapp i {
     background-color: transparent;
+}
+
+.continuar-compra {
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 30px;
+    background-color: #7e322edf;
+    color: #ffffffea;
+    text-decoration: none;
+    border-radius: 10px;
+    /*border: 1px solid #fff;*/
+    transition: transform 0.2s;
+    text-align: center;
+    padding-right: 38px;
+}
+
+.continuar-compra:hover {
+    background-color: #731932cc; /*731968cc*/
 }
 
 .carrito-vacio {
