@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Variety World: Fuegos artificiales</title>
+    <title>Variety World SV: Fuegos artificiales</title>
+
+    <link rel="icon" type="image/png" href="../images/Logo_VW_icon.png">  
+
     <link rel="stylesheet" href="../css/encabezado.css">
     <link rel="stylesheet" href="../css/inicio.css">
     <link rel="stylesheet" href="../css/pie.css">
+    <link rel="stylesheet" href="../css/productos/productos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -98,8 +102,8 @@
         <h1>Productos destacados</h1>
 
         <div class="seccionProductos">
-            <div class="cajaProducto">
-                <div>
+            <div class="cajaProducto" id="caja2">
+                <div onclick="window.abrirModal('bbe41d94-37c4-4f83-9e85-e60055dc539b')" style="cursor:pointer;">
                     <div class="tarjetaFrente">
                         <div class="imagenProducto">
                             <img src="../images\Estrellita.png" alt="Imagen">
@@ -116,15 +120,13 @@
                                     <img src="../images/flechaIzquierda.png" alt="flecha">
                                 </div>
                             </div>
-
-                            <!-- cara con estilo tipo hover -->
                             <div class="flip-back">
                                 <div class="flechaIzquierda">
                                     <img src="../images/flechaIzquierda.png" alt="flecha">
                                 </div>
                                 <div class="contenido-hover">
                                     <h2 class="unidades-texto">30 unidades</h2>
-                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                    <a href="javascript:void(0);" onclick="event.stopPropagation(); window.abrirModal('bbe41d94-37c4-4f83-9e85-e60055dc539b')" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver detalles</a>
                                 </div>
                             </div>
                         </div>
@@ -133,8 +135,7 @@
             </div>
 
             <div class="cajaProducto">
-                <div>
-                    <!-- Tarjetas de los productos -->
+                <div onclick="window.abrirModal('5c6983c2-1ed4-47e2-9c4e-6b31f35e5a09')" style="cursor:pointer;">
                     <div class="tarjetaFrente">
                         <div class="imagenProducto">
                             <img src="../images\beautiful_london.jpg" alt="Imagen">
@@ -142,7 +143,6 @@
                     </div>
                     <div class="tarjetaDentro">
                         <div class="flipDentro">
-                            <!-- Parte frontal de las tarjetas de los productos-->
                             <div class="dentro">
                                 <div class="info-detalles">
                                     <h2 class="nombreProducto">Gigante Beatiful London</h2>
@@ -153,14 +153,13 @@
                                 </div>
                             </div>
 
-                            <!-- efecto tipo hover al reverso de las tarjetas -->
                             <div class="flip-back">
                                 <div class="flechaIzquierda">
                                     <img src="../images/flechaIzquierda.png" alt="flecha">
                                 </div>
                                 <div class="contenido-hover">
                                     <h2 class="unidades-texto">1 unidad</h2>
-                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                    <a href="javascript:void(0);" onclick="event.stopPropagation(); window.abrirModal('5c6983c2-1ed4-47e2-9c4e-6b31f35e5a09')" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver detalles</a>
                                 </div>
                             </div>
                         </div>
@@ -168,9 +167,8 @@
                 </div>
             </div>
 
-            <div class="cajaProducto">
-                <div>
-                    <!-- Tarjetas de los productos -->
+            <div class="cajaProducto" id="caja3">
+                <div onclick="window.abrirModal('5dfdce7d-d266-4be3-8de3-a19dbaf7cf20')" style="cursor:pointer;">
                     <div class="tarjetaFrente">
                         <div class="imagenProducto">
                             <img src="../images\marioBros_CP_25.jpg" alt="Imagen">
@@ -178,7 +176,6 @@
                     </div>
                     <div class="tarjetaDentro">
                         <div class="flipDentro">
-                            <!-- parte frontal de las tarjetas-->
                             <div class="dentro">
                                 <div class="info-detalles">
                                     <h2 class="nombreProducto">Mario Bros CP 25 luces</h2>
@@ -189,14 +186,13 @@
                                 </div>
                             </div>
 
-                            <!-- parte trasera de las tarjetas -->
                             <div class="flip-back">
                                 <div class="flechaIzquierda">
                                     <img src="../images/flechaIzquierda.png" alt="flecha">
                                 </div>
                                 <div class="contenido-hover">
                                     <h2 class="unidades-texto">1 unidad</h2>
-                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                    <a href="javascript:void(0);" onclick="event.stopPropagation(); window.abrirModal('5dfdce7d-d266-4be3-8de3-a19dbaf7cf20')" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver detalles</a>
                                 </div>
                             </div>
                         </div>
@@ -205,8 +201,7 @@
             </div>
 
             <div class="cajaProducto">
-                <div>
-                    <!-- Tarjeta -->
+                <div onclick="window.abrirModal('0caad535-ea83-4394-838a-1535b0388dc1')" style="cursor:pointer;">
                     <div class="tarjetaFrente">
                         <div class="imagenProducto">
                             <img src="../images\llorona_ET.jpg" alt="Imagen">
@@ -229,14 +224,13 @@
                                 </div>
                                 <div class="contenido-hover">
                                     <h2 class="unidades-texto">30 unidades</h2>
-                                    <a href="../html/productos.html" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver en Productos</a>
+                                    <a href="javascript:void(0);" onclick="event.stopPropagation(); window.abrirModal('0caad535-ea83-4394-838a-1535b0388dc1')" class="btn-agregar-carrito" style="text-decoration: none; display: inline-block; text-align: center;">Ver detalles</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <div class="contenedorBotonInicio">
@@ -254,7 +248,7 @@
         <h1>¡Últimas unidades!</h1>
 
         <div class="seccionProductos">
-            <div class="cajaProducto">
+            <div class="cajaProducto" id="caja4">
                 <div>
                     <!-- Tarjetas -->
                     <div class="tarjetaFrente">
@@ -321,7 +315,7 @@
                 </div>
             </div>
 
-            <div class="cajaProducto">
+            <div class="cajaProducto" id="caja5">
                 <div>
                     <div class="tarjetaFrente">
                         <div class="stock">Disponible: 3</div>
@@ -390,7 +384,7 @@
 
         <!--logica para el diseño del Stock-->
         <div class="seccionProductos">
-            <div class="cajaProducto">
+            <div class="cajaProducto" id="caja6">
                 <div>
                     <div class="tarjetaFrente">
                         <div class="stock5">Disponible: 5</div>
@@ -456,7 +450,7 @@
                 </div>
             </div>
 
-            <div class="cajaProducto">
+            <div class="cajaProducto" id="caja7">
                 <div>
                     <div class="tarjetaFrente">
                         <div class="stock5">Disponible: 5</div>
@@ -525,7 +519,7 @@
 
         <!--Stock del producto-->
         <div class="seccionProductos">
-            <div class="cajaProducto">
+            <div class="cajaProducto" id="caja8">
                 <div>
                     <div class="tarjetaFrente">
                         <div class="stock10">Disponible: 10</div>
@@ -591,7 +585,7 @@
                 </div>
             </div>
 
-            <div class="cajaProducto">
+            <div class="cajaProducto" id="caja9">
                 <div>
                     <div class="tarjetaFrente">
                         <div class="stock10">Disponible: 10</div>
@@ -748,6 +742,54 @@
 
     <br><br><br><br>
 
+    <!--Modal para productos:-->
+    <div id="modalProducto" class="modal-overlay">
+            <div class="modal-content">
+                <button class="close-btn" onclick="cerrarModal()">×</button>
+
+                <div class="modal-body">
+                    <div class="modal-media" style="position: relative;">
+                        <div class="media-container" id="modalMediaContainer">
+                        </div>
+
+                        <button id="btnMediaPrev" class="flecha-carrusel izquierda" style="display:none;" onclick="cambiarMedia(-1)">
+                            ❮ </button>
+
+                        <button id="btnMediaNext" class="flecha-carrusel derecha" style="display:none;" onclick="cambiarMedia(1)">
+                            ❯ </button>
+
+                    </div>
+
+                    <div class="modal-info">
+                        <h2 id="modalNombre">Nombre del Producto</h2>
+                        <p id="modalPrecio" class="precio-destacado">$0.00</p>
+                        <p id="modalCodigo" style="color: #666; font-weight: bold; margin-bottom: 10px; background-color: transparent;"></p>
+                        <p id="modalDescripcion" class="descripcion-texto">Descripción detallada...</p>
+
+                        <div class="stock-info">
+                            <span>Disponibles: <strong id="modalStock">0</strong></span>
+                            <span>Unidades por paquete: <strong id="modalPaquete">1</strong></span>
+                        </div>
+
+                        <div class="controles-compra">
+                            <div class="input-cantidad">
+                                <button onclick="cambiarCantidad(-1)">-</button>
+                                <input type="number" id="inputCantidad" value="1" min="1" readonly>
+                                <button onclick="cambiarCantidad(1)">+</button>
+                            </div>
+                            <p style="color: #ccc; font-size: 0.9rem;justify-content: center; text-align: center;">
+                                Total a<br>pagar:<br><span id="precioTotalCalculado" style="color: #E6B325; font-weight: bold; background-color: transparent;">$0.00</span>
+                            </p>
+                            <button class="btn-agregar" onclick="agregarAlCarrito()">
+                                Agregar al Carrito
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modalConfirmacionCarrito" class="modal-overlay" style="display: none;">
+    </div>
 
     <!--estructura para el pie de página -->
     <footer class="pie-principal">
@@ -800,10 +842,11 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/auth.js"></script>
-
+    <script src="../js/auth.js"></script> 
     <script src="../js/busqueda.js"></script>
     <script type="module" src="../js/busqueda.js"></script>
+
+    <script src="../js/productos.js"></script>
 
 
 

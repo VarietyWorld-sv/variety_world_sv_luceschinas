@@ -228,11 +228,28 @@ function iniciarSistemaProductos() {
             </div>
         `;
     }
+    
+    //Función para producto más vendido:
+    async function registrarVisita(idProducto) {
+        try {        
+            const { error: updateError } = await sb.rpc('incrementar_visitas', { id_prod: idProducto });
+            
+            if (updateError) {
+                console.error("Error al registrar visita:", updateError.message);
+            }
+
+        } catch (e) {
+            console.error("Fallo al registrar visita:", e);
+        }
+    }
+
 
     window.abrirModal = (id) => {
         productoSeleccionado = inventarioGlobal.find(p => p.id_producto == id);
         if (!productoSeleccionado) return;
 
+        registrarVisita(id);
+        
         document.getElementById('modalNombre').innerText = productoSeleccionado.nombre;
         document.getElementById('modalDescripcion').innerText = productoSeleccionado.descripcion || "Sin descripción.";
         document.getElementById('modalPrecio').innerText = `$${parseFloat(productoSeleccionado.precio_unitario).toFixed(2)}`;

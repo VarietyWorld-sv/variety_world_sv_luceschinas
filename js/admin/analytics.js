@@ -125,3 +125,78 @@ function renderizarGraficoDonut(datos) {
         }
     });
 }
+
+export async function cargarTopProductos() {
+    console.log("Cargando Top Productos...");
+
+    const { data: topData, error } = await supabase.rpc('get_top_analytics');
+
+    if (error) {
+        console.error("Error al obtener top analytics:", error);
+        return;
+    }
+
+    const productosVisitados = topData.filter(d => d.metric_type === 'Visitado');
+    const productosVendidos = topData.filter(d => d.metric_type === 'Vendido');
+    
+    const nombresUnicos = [...new Set([
+        ...productosVisitados.map(p => p.nombre),
+        ...productosVendidos.map(p => p.nombre)
+    ])].slice(0, 10);
+
+    const ventasMap = new Map(productosVendidos.map(p => [p.nombre, p.metric_value]));
+    const visitasMap = new Map(productosVisitados.map(p => [p.nombre, p.metric_value]));
+    
+    const datosVentas = nombresUnicos.map(nombre => ventasMap.get(nombre) || 0);
+    const datosVisitas = nombresUnicos.map(nombre => visitasMap.get(nombre) || 0);
+
+    renderizarGraficoBarras(nombresUnicos, datosVentas, datosVisitas);
+}
+
+function renderizarGraficoBarras(labels, datosVentas, datosVisitas) {
+    const ctx = document.getElementById('chartProductoVendidoVisitado');
+    if (!ctx) return;
+
+    if (window.chartTopProductos instanceof Chart) window.chartTopProductos.destroy();
+
+    window.chartTopProductos = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Cantidad vendida',
+                    data: datosVentas,
+                    backgroundColor: '#E6A925',
+                    borderColor: '#E6B325',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Número de visitas',
+                    data: datosVisitas,
+                    backgroundColor: '#722F37',
+                    borderColor: '#A14851',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#fff' } }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#fff', precision: 0 },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                },
+                x: {
+                    ticks: { color: '#fff' },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}

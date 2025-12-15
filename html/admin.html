@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel maestro</title>
     
+    <link rel="icon" type="image/png" href="../images/Logo_VW_icon.png">  
+    
     <link rel="stylesheet" href="../css/encabezado.css">
     <link rel="stylesheet" href="../css/pie.css">
     <link rel="stylesheet" href="../css/admin.css">
@@ -35,7 +37,7 @@
                         <li class="btnSesion">
                             <a href="#" id="btnCerrarSesionAdmin">
                                 <i class="fa-solid fa-right-from-bracket"></i> 
-                                <span class="texto-salir">Salir</span>
+                                <span class="texto-salir">  Salir</span>
                             </a>
                         </li>
                     </ul>
@@ -122,12 +124,16 @@
 
                 <div class="charts-grid-completa">
                     <div class="chart-container large">
-                        <h3><i class="fa-solid fa-arrow-trend-up"></i> Tendencia de Ventas</h3>
+                        <h3>Tendencia de ventas  <i class="fa-solid fa-arrow-trend-up"></i></h3>
                         <canvas id="chartLineaVentas"></canvas>
                     </div>
                     <div class="chart-container">
-                        <h3>Estados de Pedidos</h3>
+                        <h3>Estados de pedidos</h3>
                         <canvas id="chartEstados"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Producto más vendido y el más visitado</h3>
+                        <canvas id="chartProductoVendidoVisitado"></canvas>
                     </div>
                 </div>
             </div>

@@ -155,10 +155,15 @@ h2{
 /*Párrafo abajo del mapa*/
 #envios-especiales{
     text-align: right;
-    margin-right: 140px;
+    margin-right: 310px;
     padding-left: 900px;
     padding-top: 15px;
     font-style: italic;
+    font-size: 1.2em;
+}
+
+#envios-especiales a{
+    color: greenyellow;
 }
 
 /* FORMAS DE PAGO */
@@ -240,7 +245,7 @@ h2{
         margin-right: 0;
         text-align: center;
         margin-top: 20px;
-        font-size: 1em;
+        font-size: 1.2em;
         width: 100%;
     }
     

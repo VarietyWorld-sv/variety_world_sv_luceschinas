@@ -132,7 +132,7 @@ h2 {
 .imagenProducto {
     background-color: #ffffff;
     border-radius: 25px;
-    border: 3px solid #8B4513;
+    border: 3px solid #ffffff;
     
     height: 220px;
     width: 100%;
@@ -430,12 +430,14 @@ h2 {
     color: #ffffff; 
     margin: 10px 0;
     font-weight: bold;
+    background-color: transparent;
 }
 
 .descripcion-texto {
     color: #ccc;
     line-height: 1.6;
     margin-bottom: 20px;
+    background-color: transparent;
 }
 
 .stock-info {
@@ -449,6 +451,11 @@ h2 {
     display: flex;
     gap: 15px;
     align-items: center;
+    background-color: transparent;
+}
+
+.controles-compra p{
+    background-color: transparent;
 }
 
 .input-cantidad {
@@ -682,6 +689,32 @@ input[type=number] {
         width: 100% !important; 
         max-width: none !important;
         height: auto;
+        min-height: auto;
+        
+        padding: 10px;
+        gap: 8px;
+        
+        border-width: 2px;
+        border-radius: 15px;
+    }
+
+    #caja2{
+        width: 100% !important; 
+        max-width: none !important;
+        height: 245px;
+        min-height: auto;
+        
+        padding: 10px;
+        gap: 8px;
+        
+        border-width: 2px;
+        border-radius: 15px;
+    }
+
+    #caja3, #caja4, #caja5, #caja6, #caja7, #caja8, #caja9{
+        width: 100% !important; 
+        max-width: none !important;
+        height: 245px;
         min-height: auto;
         
         padding: 10px;

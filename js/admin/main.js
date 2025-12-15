@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (rol.toLowerCase() !== 'ayudante') {
         Analytics.cargarAnaliticas();
+        Analytics.cargarTopProductos();
     }
 
     const formProd = document.getElementById('formProducto');
@@ -163,7 +164,10 @@ window.mostrarSeccion = (id, el) => {
     }
     if (id === 'zonas') Zones.cargarZonas();
     if (id === 'pedidos') Orders.cargarPedidos();
-    if (id === 'dashboard') Analytics.cargarAnaliticas();
+    if (id === 'dashboard') {
+        Analytics.cargarAnaliticas();
+        Analytics.cargarTopProductos();
+    }
     if (id === 'combos') Combos.cargarCombos();
 };
 

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Envíos</title>
+    
+    <link rel="icon" type="image/png" href="../images/Logo_VW_icon.png">  
+    
     <link rel="stylesheet" href="../css/encabezado.css">
     <link rel="stylesheet" href="../css/productos/envios.css">
     <link rel="stylesheet" href="../css/pie.css">
@@ -71,7 +74,7 @@
                     <div id="mapa-envios"></div>
 
                     <div class="panel-lista">
-                        <h3>Lugares Habilitados</h3>
+                        <h3>Lugares habilitados</h3>
                         <ul id="lista-lugares">
                             
                         </ul>
@@ -79,9 +82,17 @@
                 </div>
             </div>
 
-            <p id="envios-especiales">Si tu ubicación no se encuentra dentro de la lista, escríbenos al 7762 2211 y consulta por detalles de envíos especiales.</p>
+            <p id="envios-especiales">Si tu ubicación no se encuentra dentro de la lista, escríbenos al <a href="javascript:void(0);" onclick="iniciarChatEspecial(event)">7762 2211</a> y consulta por detalles de envíos especiales.</p>
+            <script>
+                function iniciarChatEspecial(event) {
+                    event.preventDefault();
+                    const numeroTelefono = "50377622211";
+                    let mensaje = "Hola, Variety World SV,\ mi ubicación no se encuentra dentro de la lista de zonas de cobertura.";
+                    const mensajeCodificado = encodeURIComponent(mensaje);
+                    window.open(`https://wa.me/${numeroTelefono}?text=${mensajeCodificado}`, 'blank');
+                }
+            </script>
         </section>
-
 
         <section id="formasPago">
             <div class="tarjeta-pagos">
