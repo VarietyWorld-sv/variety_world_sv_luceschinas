@@ -26,15 +26,15 @@ h2 {
 
 /* Barra lateral */
 .categorias {
-    width: 200px; 
+    width: 12.5rem;
     flex-shrink: 0;
     background-color: transparent;
 
-    
     position: sticky;
-    top: 140px;
+    top: 8.75rem;
     align-self: flex-start;
-    height: fit-content;
+    height: 30.625rem;
+    overflow-y: scroll;
 }
 
 .category {
@@ -592,6 +592,10 @@ input[type=number] {
         padding: 0;
         overflow: visible;
     }
+
+    .categorias h1{
+        display: none;
+    }
     
     .categorias {
         width: 100%;
@@ -604,6 +608,7 @@ input[type=number] {
         position: -webkit-sticky;
         top: 190px; 
         z-index: 900;
+        height: fit-content;
         
         background-color: #0A0A23;
         border-bottom: 2px solid #E6B325;

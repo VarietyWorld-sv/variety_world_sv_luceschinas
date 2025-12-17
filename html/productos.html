@@ -59,20 +59,22 @@
     <div class="main-content-wrapper">
 
         <section class="categorias" id="sidebar-categorias">
-            <div class="category all-products-link" onclick="window.filtrarPorCategoria('todos')">
-                <a href="#"><h3>Ver Todos</h3></a>
-            </div>
+                <div class="category all-products-link" onclick="window.filtrarPorCategoria('todos')">
+                    <h1 style="text-align: center; color: #E6B325; font-size: 1.2rem; padding-left: 8px;">— Categorías —</h1>
+                    <a href="#"><h3>Ver Todos</h3></a>
+                </div>
 
-            <div id="lista-categorias-dinamica"></div>
+                <div id="lista-categorias-dinamica"></div>
 
-            <div class="filtro-container">
-                <label for="sortPrecio">Ordenar por precio:</label>
-                <select id="sortPrecio" onchange="window.ordenarProductos(this.value)">
-                    <option value="defecto">Destacados</option>
-                    <option value="asc">Menor a Mayor ($)</option>
-                    <option value="desc">Mayor a Menor ($$$)</option>
-                </select>
-            </div>
+                <div class="filtro-container">
+                    <label for="sortPrecio">Ordenar por precio:</label>
+                    <select id="sortPrecio" onchange="window.ordenarProductos(this.value)">
+                        <option value="defecto">Destacados</option>
+                        <option value="asc">Menor a Mayor ($)</option>
+                        <option value="desc">Mayor a Menor ($$$)</option>
+                    </select>
+                </div>
+                
         </section>
 
         <section class="contenedor-productos" id="contenedor-principal">
@@ -145,10 +147,10 @@
             <div class="columna-pie grupo-enlaces">
                 <h4 class="titulo-columna" id="categorias">Categorías</h4>
                 <ul class="lista-enlaces">
-                    <li><a href="../html/productos.html##productos-reyes">Para los reyes del hogar</a></li>
-                    <li><a href="../html/productos.html##productos-recreativos">Recreativo</a></li>
-                    <li><a href="../html/productos.html##productos-nacionales">Producto nacional</a></li>
-                    <li><a href="../html/productos.html##productos-baterias">Baterías</a></li>
+                    <li><a href="../html/productos.html?cat=Para los reyes del hogar">Para los reyes del hogar</a></li>
+                    <li><a href="../html/productos.html?cat=Baterías gigantes">Baterías</a></li>
+                    <li><a href="../html/productos.html?cat=Producto nacional">Productos nacionales</a></li>
+                    <li><a href="../html/productos.html?cat=Revelador de género">Reveladores de género</a></li>
                 </ul>
             </div>
             <div class="columna-pie grupo-contacto-social">

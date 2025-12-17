@@ -130,6 +130,20 @@ function iniciarSistemaProductos() {
                 mostrarResultadosBusqueda(productos, termino);
             } else {
                 generarVistaDinamica(inventarioGlobal);
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const categoriaDestino = urlParams.get('cat');
+
+                if (categoriaDestino) {
+                    setTimeout(() => {
+                        const seccion = Array.from(document.querySelectorAll('.seccionProductos'))
+                                            .find(sec => sec.dataset.categoria === categoriaDestino);
+                        
+                        if (seccion) {
+                            seccion.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 500); 
+                }
             }
 
         } catch (error) { console.error(error); }
@@ -169,6 +183,7 @@ function iniciarSistemaProductos() {
         });
     }
 
+    
     window.filtrarPorCategoria = (categoria, event) => {
         if (event) event.preventDefault();
         
