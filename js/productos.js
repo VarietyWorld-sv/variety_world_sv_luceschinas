@@ -422,4 +422,49 @@ function iniciarSistemaProductos() {
     };
 
     obtenerProductos();
+
+
+
+    
+    async function abrirProductoDesdeURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const codigoUrl = urlParams.get('code');
+
+        if (codigoUrl) {
+            console.log("Detectado código en URL:", codigoUrl);
+            
+            setTimeout(() => {
+                const productoEncontrado = inventarioGlobal.find(
+                    p => p.codigo_producto && p.codigo_producto.toLowerCase() === codigoUrl.toLowerCase()
+                );
+
+                if (productoEncontrado) {
+                    window.abrirModal(productoEncontrado.id_producto);
+                } else {
+                    console.warn("No se encontró ningún producto con el código:", codigoUrl);
+                }
+            }, 800);
+        }
+    }
+
+    abrirProductoDesdeURL();
+
+    // Función para copiar el link con el código del producto al portapapeles
+    window.copiarLinkProducto = () => {
+        if (!productoSeleccionado || !productoSeleccionado.codigo_producto) {
+            alert("No se pudo generar el enlace para este producto.");
+            return;
+        }
+        
+        const urlCompartir = `${window.location.origin}${window.location.pathname}?code=${encodeURIComponent(productoSeleccionado.codigo_producto)}`;
+        
+        navigator.clipboard.writeText(urlCompartir).then(() => {
+            alert("¡Enlace copiado al portapapeles! Ya puedes compartirlo");
+        }).catch(err => {
+            console.error('Error al copiar: ', err);
+            alert("No se pudo copiar el enlace automáticamente.");
+        });
+    };
+
+
 }

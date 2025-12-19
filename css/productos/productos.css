@@ -373,6 +373,49 @@ h2 {
     display: block;
 }
 
+
+.btn-compartir {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 150;
+    
+    background-color: #25d366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.btn-compartir i {
+    background-color: transparent !important;
+    font-size: 1.2rem;
+}
+
+.btn-compartir:hover {
+    background-color: #128c7e;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .btn-compartir {
+        bottom: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
 /* Flechas del carrusel */
 .flecha-carrusel {
     position: absolute;
