@@ -1,17 +1,20 @@
-var SUPABASE_URL = 'https://fpmsddnonhiqxnsydfpz.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbXNkZG5vbmhpcXhuc3lkZnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MTE4NTAsImV4cCI6MjA3ODQ4Nzg1MH0.Lj3q5iOHpGzBhwul1yPx4jxoSB9u-blu5EYJ6lsftXY';
-
 //const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-if (typeof supabase === 'undefined') {
-    window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-} else {
-    if (!window.supabase.auth) {
-        window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+if (typeof SUPABASE_URL === 'undefined') {
+    var SUPABASE_URL = 'https://fpmsddnonhiqxnsydfpz.supabase.co';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbXNkZG5vbmhpcXhuc3lkZnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MTE4NTAsImV4cCI6MjA3ODQ4Nzg1MH0.Lj3q5iOHpGzBhwul1yPx4jxoSB9u-blu5EYJ6lsftXY';
+}
+
+if (!window.supabaseClient) {
+    if (typeof window.supabase === 'object' && window.supabase.createClient) {
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } else {
+        console.error("La librería de Supabase no se ha cargado correctamente.");
     }
 }
 
-var supabase = window.supabase;
+var supabase = window.supabaseClient;
+
 
 function estandarizarTelefono(telefono) {
     const telLimpio = telefono.replace(/[^\d]/g, '');
@@ -232,11 +235,16 @@ function actualizarBotonSesion(nombre) {
     const botonSesion = document.querySelector('.btnSesion a');
 
     if (botonSesion) {
+        const esIndex = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || !window.location.pathname.includes('/html/');
+        
+        const rutaImagen = esIndex ? "images/login-icon.png" : "../images/login-icon.png";
+        const rutaPerfil = esIndex ? "html/perfil.html" : "../html/perfil.html";
+
         botonSesion.innerHTML = `
-            <img src="../images/login-icon.png" style="filter: brightness(0) invert(1);"> 
+            <img src="${rutaImagen}" style="filter: brightness(0) invert(1);"> 
             Ver perfil
         `;
-        botonSesion.href = "../html/perfil.html";
+        botonSesion.href = rutaPerfil;
 
         const nuevoBoton = botonSesion.cloneNode(true);
         botonSesion.parentNode.replaceChild(nuevoBoton, botonSesion);
