@@ -1,17 +1,33 @@
-const SUPABASE_URL = 'https://fpmsddnonhiqxnsydfpz.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbXNkZG5vbmhpcXhuc3lkZnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MTE4NTAsImV4cCI6MjA3ODQ4Nzg1MH0.Lj3q5iOHpGzBhwul1yPx4jxoSB9u-blu5EYJ6lsftXY';
+if (typeof SUPABASE_URL === 'undefined') {
+    var SUPABASE_URL = 'https://fpmsddnonhiqxnsydfpz.supabase.co';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbXNkZG5vbmhpcXhuc3lkZnB6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5MTE4NTAsImV4cCI6MjA3ODQ4Nzg1MH0.Lj3q5iOHpGzBhwul1yPx4jxoSB9u-blu5EYJ6lsftXY';
+}
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+if (!window.supabaseClient) {
+    if (typeof window.supabase === 'object' && window.supabase.createClient) {
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } else {
+        console.error("La librería de Supabase no se ha cargado correctamente.");
+    }
+}
+
+var supabase = window.supabaseClient;
 
 let totalProductos = 0;
 let costoEnvio = 0;
 let datosPedidoTemporal = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
+    if (!supabase) {
+        supabase = window.supabaseClient;
+    }
+
     cargarCarrito();
     await cargarZonasEnvio();
     
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: authData } = await supabase.auth.getUser();
+    const user = authData?.user;
+
     if (user) {
         gestionarUsuarioLogueado(user.id);
     }
@@ -152,18 +168,13 @@ async function cargarZonasEnvio() {
         }
     }
     
-    //selectZona.addEventListener('change', actualizarTotalesPantalla);
     selectZona.addEventListener('change', (e) => {
         const valorSeleccionado = e.target.value;
-        
-        if (valorSeleccionado === "whatsapp") {
-            if (divDireccion) divDireccion.style.display = 'none';
-        } else {
-            if (divDireccion) divDireccion.style.display = 'block';
+        if (divDireccion) {
+            divDireccion.style.display = (valorSeleccionado === "whatsapp") ? 'none' : 'block';
         }
         actualizarTotalesPantalla();
     });
-
 }
 
 function renderizarOpcionesZonas(lista, select) {
@@ -362,6 +373,7 @@ async function procesarPedidoBD(userId, nombreCliente) {
         if (btnMain) { btnMain.innerText = "Procesando..."; btnMain.disabled = true; }
         if (btnGuest) { btnGuest.innerText = "Procesando..."; btnGuest.disabled = true; }
 
+        // 2. INSERCIÓN DEL PEDIDO
         const { data: pedidoData, error: pedidoError } = await supabase
             .from('pedidos')
             .insert([{
@@ -380,17 +392,14 @@ async function procesarPedidoBD(userId, nombreCliente) {
         if (pedidoError) throw pedidoError;
         const nuevoIdPedido = pedidoData[0].id_pedido;
 
+        // 3. DETALLES Y ACTUALIZACIÓN DE STOCK
         for (const prod of carrito) {
-            const { error: detalleError } = await supabase
-                .from('detalles_pedido')
-                .insert([{
-                    id_pedido: nuevoIdPedido,
-                    id_producto: prod.id,
-                    cantidad: prod.cantidad,
-                    precio_al_comprar: prod.precio
-                }]);
-            
-            if (detalleError) throw detalleError;
+            await supabase.from('detalles_pedido').insert([{
+                id_pedido: nuevoIdPedido,
+                id_producto: prod.id,
+                cantidad: prod.cantidad,
+                precio_al_comprar: prod.precio
+            }]);
 
             const { data: prodBD } = await supabase
                 .from('productos')
@@ -399,43 +408,33 @@ async function procesarPedidoBD(userId, nombreCliente) {
                 .single();
 
             if (prodBD) {
-                const nuevoStock = prodBD.stock - prod.cantidad;
-                await supabase
-                    .from('productos')
-                    .update({ stock: nuevoStock })
+                await supabase.from('productos')
+                    .update({ stock: prodBD.stock - prod.cantidad })
                     .eq('id_producto', prod.id);
             }
         }
 
-        const { error: envioError } = await supabase
-            .from('facturacion_envio')
-            .insert([{
-                id_pedido: nuevoIdPedido,
-                nombre_factura: nombreCliente,
-                direccion_envio: direccion,
-                zona_envio: nombreZona,
-                requiere_factura_electronica: false
-            }]);
-
-        if (envioError) throw envioError;
+        // 4. FACTURACIÓN
+        await supabase.from('facturacion_envio').insert([{
+            id_pedido: nuevoIdPedido,
+            nombre_factura: nombreCliente,
+            direccion_envio: direccion,
+            zona_envio: nombreZona,
+            requiere_factura_electronica: false
+        }]);
 
         alert(`¡Gracias por tu compra! Tu pedido #${nuevoIdPedido.slice(0, 6)} ha sido recibido.`);
         localStorage.removeItem('carrito_compras');
 
-        if (userId) window.location.href = "perfil.html";
-        else window.location.href = "../index.html";
+        window.location.href = userId ? "perfil.html" : "../index.html";
 
     } catch (error) {
         console.error("Error al procesar:", error);
-        alert("Hubo un error al guardar el pedido. Intenta nuevamente.");
-        
-        const btnMain = document.getElementById('btn-finalizar');
-        const btnGuest = document.querySelector('#formGuest button');
-        
-        if (btnMain) { btnMain.innerText = "Confirmar pedido"; btnMain.disabled = false; }
-        if (btnGuest) { btnGuest.innerText = "Confirmar pedido"; btnGuest.disabled = false; }
+        alert("Hubo un error al guardar el pedido.");
+        // Re-habilitar botones si hay error
     }
 }
+
 
 async function gestionarUsuarioLogueado(userId) {
     const { data: usuarioData } = await supabase
